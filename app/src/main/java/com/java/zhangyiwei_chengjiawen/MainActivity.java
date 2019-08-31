@@ -30,11 +30,6 @@ import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 
-/*TODO
- * 存储
- *
- * */
-
 public class MainActivity extends AppCompatActivity {
     private int current = 0;
     public static final int CONTENT = 0;
