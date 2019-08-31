@@ -9,8 +9,8 @@ class Common {
     static ArrayList<String> history = new ArrayList<>();
     static int currentItem = 0;
     final static String[] category = {"收藏", "娱乐", "军事", "教育", "文化", "健康", "财经", "体育", "汽车", "科技", "社会"};
-    static ArrayList<Integer> added = new ArrayList<>(Arrays.asList(0, 2, 3, 4));
-    static ArrayList<Integer> deleted = new ArrayList<>(Arrays.asList(1, 5, 8, 6, 7, 9, 10));
+    static ArrayList<Integer> added = new ArrayList<>(Arrays.asList(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10));
+    static ArrayList<Integer> deleted = new ArrayList<>();
 
     static String encodingToUrl(String size, String startDate, String endDate, String words, String categories, String page) {
         String[] args = new String[]{size, startDate, endDate, words, categories, page};

@@ -28,6 +28,7 @@ public class SearchFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Common.history.clear();
+                ((MainActivity)getActivity()).saveData();
                 view.findViewById(R.id.search_fragment).setVisibility(View.INVISIBLE);
             }
         });

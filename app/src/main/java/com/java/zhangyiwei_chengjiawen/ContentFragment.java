@@ -199,6 +199,7 @@ public class ContentFragment extends Fragment {
                             ((HorizontalScrollView) categoryMenu.getParent()).smoothScrollTo(0, 0);
                         }
                     });
+                    ((MainActivity)getActivity()).saveData();
                 }
             });
             categoryDialog.setCancelable(false);
