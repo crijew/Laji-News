@@ -5,6 +5,7 @@
     package="com.java.zhangyiwei_chengjiawen">
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <application
         tools:ignore="GoogleAppIndexingWarning"
         android:allowBackup="false"

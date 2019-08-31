@@ -23,11 +23,12 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-/*TODO
- * 上拉获取
- * 存储
- *
- * */
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.util.ArrayList;
+import java.util.Collections;
 
 public class MainActivity extends AppCompatActivity {
     private int current = 0;
@@ -108,12 +109,74 @@ public class MainActivity extends AppCompatActivity {
             imm.hideSoftInputFromWindow(v.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
     }
 
+    boolean saveData() {
+        boolean flag = true;
+        FileOutputStream fos = null;
+        ObjectOutputStream oos = null;
+        try {
+            fos = openFileOutput("data", MODE_PRIVATE);
+            oos = new ObjectOutputStream(fos);
+            Object[] objects = {Common.history, Common.added, Common.deleted};
+            oos.writeObject(objects);
+        } catch (Exception e) {
+            flag = false;
+        } finally {
+            if (fos != null)
+                try {
+                    fos.close();
+                } catch (Exception e) {
+                    flag = false;
+                }
+            else flag =  false;
+            if (oos != null)
+                try {
+                    oos.close();
+                } catch (Exception e) {
+                    flag = false;
+                }
+            else flag = false;
+        }
+        return flag;
+    }
+
+    boolean loadData() {
+        boolean flag = true;
+        FileInputStream fis = null;
+        ObjectInputStream ois = null;
+        try {
+            fis = openFileInput("data");
+            ois = new ObjectInputStream(fis);
+            Object[] objects = (Object[]) ois.readObject();
+            Common.history = (ArrayList<String>)objects[0];
+            Common.added = (ArrayList<Integer>)objects[1];
+            Common.deleted = (ArrayList<Integer>)objects[2];
+        } catch (Exception e) {
+            flag = false;
+        } finally {
+            if(fis != null)
+                try {
+                    fis.close();
+                } catch (Exception e) {
+                    flag = false;
+                }
+            if(ois != null)
+                try {
+                    ois.close();
+                } catch (Exception e) {
+                    flag = false;
+                }
+        }
+        return flag;
+    }
+
     @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_main);
+
+        loadData();
 
         //Translucent status bar
         {
@@ -142,6 +205,9 @@ public class MainActivity extends AppCompatActivity {
                 Common.history.remove(text);
                 if (Common.history.size() < 10)
                     Common.history.add(text);
+                saveData();
+                if (current == CONTENT)
+                    td.startTransition(200);
                 setFragment(RESULT, text);
             }
         });
