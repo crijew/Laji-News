@@ -15,9 +15,12 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.baoyz.widget.PullRefreshLayout;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
+import com.scwang.smartrefresh.layout.listener.OnRefreshLoadMoreListener;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -114,15 +117,22 @@ class NewsListAdapter extends BaseAdapter {
 public class NewsFragment extends Fragment {
     private static final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.CHINA);
     private final Pattern pattern = Pattern.compile("^\\[(.*?)[,\\]]");
-    private ListView newsList;
-    private PullRefreshLayout refreshLayout;
+    private ListView newsList = null;
+    private NewsListAdapter adapter = null;
+    private int pageNum = 0;
+    ArrayList<HashMap<String, String>> itemList = new ArrayList<>();
+
     private Handler handler = new Handler(new Handler.Callback() {
         @Override
         public boolean handleMessage(Message msg) {
-            ArrayList<HashMap<String, String>> itemList = new ArrayList<>();
             //Successfully get data -> split
-            if (msg.what == 0) {
+            if (adapter == null) {
+                adapter = new NewsListAdapter(getContext(), itemList);
+                newsList.setAdapter(adapter);
+            }
+            if (msg.what == 0 || msg.what == 1) {
                 try {
+                    if (msg.what == 0) itemList.clear();
                     String result = (String) msg.obj;
                     JSONObject object = new JSONObject(result);
                     JSONArray allData = object.getJSONArray("data");
@@ -140,6 +150,7 @@ public class NewsFragment extends Fragment {
                 } catch (JSONException e) {
                 }
             } else {
+                itemList.clear();
                 HashMap<String, String> map = new HashMap<>();
                 map.put("itemImage", "");
                 map.put("itemTitle", "Getting news item failed");
@@ -147,10 +158,7 @@ public class NewsFragment extends Fragment {
                 map.put("itemTime", "");
                 itemList.add(map);
             }
-            NewsListAdapter adapter = new NewsListAdapter(getContext(), itemList);
-            newsList.setAdapter(adapter);
-            newsList.invalidate();
-            refreshLayout.setRefreshing(false);
+            adapter.notifyDataSetChanged();
             return false;
         }
     });
@@ -161,10 +169,10 @@ public class NewsFragment extends Fragment {
         sdf.setTimeZone(TimeZone.getTimeZone("GMT+8"));
         View view = inflater.inflate(R.layout.news_fragment, container, false);
         newsList = view.findViewById(R.id.newsList);
-        getNews();
+        getNews(true);
 
         //Refresh
-        refreshLayout = view.findViewById(R.id.refreshLayout);
+        SmartRefreshLayout refreshLayout = view.findViewById(R.id.refreshLayout);
 //        refreshLayout.setRefreshStyle(PullRefreshLayout.STYLE_CIRCLES);
 //        refreshLayout.setColorSchemeColors(
 //                Color.rgb(182, 182, 182),
@@ -172,10 +180,17 @@ public class NewsFragment extends Fragment {
 //                Color.rgb(92, 172, 238),
 //                Color.rgb(92, 172, 238)
 //        );
-        refreshLayout.setOnRefreshListener(new PullRefreshLayout.OnRefreshListener() {
+        refreshLayout.setOnRefreshLoadMoreListener(new OnRefreshLoadMoreListener() {
             @Override
-            public void onRefresh() {
-                getNews();
+            public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
+                getNews(false);
+                refreshLayout.finishLoadMore();
+            }
+
+            @Override
+            public void onRefresh(@NonNull RefreshLayout refreshLayout) {
+                getNews(true);
+                refreshLayout.finishRefresh();
             }
         });
         return view;
@@ -185,16 +200,19 @@ public class NewsFragment extends Fragment {
     public void onHiddenChanged(boolean hidden) {
         if (hidden) return;
         newsList.setAdapter(new NewsListAdapter(getContext(), new ArrayList<HashMap<String, String>>()));
-        getNews();
+        getNews(true);
     }
 
-    private void getNews() {
+    private void getNews(final boolean refresh) {
+        if (refresh) pageNum = 0;
+        pageNum += 1;
         String size = "10";
         String startDate = "";
         String endDate = sdf.format(new Date());
         String words = (String) getArguments().get("word");
         String categories = (String) getArguments().get("type");
-        final String url = Common.encodingToUrl(size, startDate, endDate, words, categories);
+        String page = Integer.toString(pageNum);
+        final String url = Common.encodingToUrl(size, startDate, endDate, words, categories, page);
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -207,19 +225,22 @@ public class NewsFragment extends Fragment {
                     if (connection.getResponseCode() == HttpURLConnection.HTTP_OK) {
                         br = new BufferedReader(new InputStreamReader(connection.getInputStream(), StandardCharsets.UTF_8));
                         String result = br.readLine();
-                        handler.sendMessage(handler.obtainMessage(0, result));
+                        if (refresh)
+                            handler.sendMessage(handler.obtainMessage(0, result));
+                        else
+                            handler.sendMessage(handler.obtainMessage(1, result));
                     } else
-                        handler.sendMessage(handler.obtainMessage(1, "Status code: " + connection.getResponseCode()));
+                        handler.sendMessage(handler.obtainMessage(2, "Status code: " + connection.getResponseCode()));
                 } catch (MalformedURLException e) {
-                    handler.sendMessage(handler.obtainMessage(2, "MalformedURLException"));
+                    handler.sendMessage(handler.obtainMessage(3, "MalformedURLException"));
                 } catch (IOException e) {
-                    handler.sendMessage(handler.obtainMessage(3, "IOException"));
+                    handler.sendMessage(handler.obtainMessage(4, "IOException"));
                 } finally {
                     if (br != null)
                         try {
                             br.close();
                         } catch (IOException e) {
-                            handler.sendMessage(handler.obtainMessage(3, "IOException"));
+                            handler.sendMessage(handler.obtainMessage(4, "IOException"));
                         }
                     connection.disconnect();
                 }

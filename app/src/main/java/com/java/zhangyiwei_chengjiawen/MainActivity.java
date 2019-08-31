@@ -142,6 +142,8 @@ public class MainActivity extends AppCompatActivity {
                 Common.history.remove(text);
                 if (Common.history.size() < 10)
                     Common.history.add(text);
+                if (current == CONTENT)
+                    td.startTransition(200);
                 setFragment(RESULT, text);
             }
         });
