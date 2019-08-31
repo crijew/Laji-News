@@ -73,6 +73,7 @@ class NewsListAdapter extends BaseAdapter {
             private ImageView itemImage;
             private TextView itemSubtitle;
             private TextView itemTime;
+            private String info;
         }
 
         ViewHolder viewHolder;
@@ -110,6 +111,7 @@ class NewsListAdapter extends BaseAdapter {
         viewHolder.itemTitle.setText(map.get("itemTitle"));
         viewHolder.itemSubtitle.setText(map.get("itemSubtitle"));
         viewHolder.itemTime.setText(map.get("itemTime"));
+        viewHolder.info = map.get("info");
         return convertView;
     }
 }
@@ -145,6 +147,7 @@ public class NewsFragment extends Fragment {
                         map.put("itemTitle", data.getString("title"));
                         map.put("itemSubtitle", data.getString("publisher"));
                         map.put("itemTime", data.getString("publishTime"));
+                        map.put("info", data.toString());
                         itemList.add(map);
                     }
                 } catch (JSONException e) {
