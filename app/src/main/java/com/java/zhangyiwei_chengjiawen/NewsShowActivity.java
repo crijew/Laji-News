@@ -46,17 +46,14 @@ public class NewsShowActivity extends AppCompatActivity {
         setContentView(R.layout.newsshow_main);
 
         //子控件
-        final ImageView newsBannerCollect = (ImageView) findViewById(R.id.newsBannerCollect);
+        final ImageView newsBannerCollect = findViewById(R.id.newsBannerCollect);
 
-
-
-        boolean dark = false;
         //夜间模式topBar字体颜色
         View decor = getWindow().getDecorView();
-        if (dark) {
-            decor.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+        if (!Common.nightMode) {
+            decor.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
         } else {
-            decor.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
+            decor.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
         }
 
         //Translucent status bar
@@ -139,7 +136,7 @@ public class NewsShowActivity extends AppCompatActivity {
             public void onClick(View view) {
                 if (!clickCollect){
                     newsBannerCollect.setImageResource(R.mipmap.collected);
-                    Common.collected.add(thisItem);
+                    Common.collected.add(0, thisItem);
                 } else {
                     newsBannerCollect.setImageResource(R.mipmap.collect);
                     Common.collected.remove(thisItem);

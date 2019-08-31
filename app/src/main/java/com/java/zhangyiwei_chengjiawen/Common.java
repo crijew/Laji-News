@@ -11,6 +11,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -39,10 +40,10 @@ class CollectedItem {
 
 
 class Common {
+    final static String[] category = {"娱乐", "军事", "教育", "文化", "健康", "财经", "体育", "汽车", "科技", "社会"};
     static boolean nightMode = false;
     static ArrayList<String> history = new ArrayList<>();
     static int currentItem = 0;
-    final static String[] category = {"娱乐", "军事", "教育", "文化", "健康", "财经", "体育", "汽车", "科技", "社会"};
     static ArrayList<Integer> added = new ArrayList<>(Arrays.asList(0, 1, 2, 3, 4, 5, 6, 7, 8, 9));
     static ArrayList<Integer> deleted = new ArrayList<>();
     static ArrayList<CollectedItem> collected = new ArrayList<>();

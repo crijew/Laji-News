@@ -106,6 +106,7 @@ public class CollectionFragment extends Fragment {
         super.onResume();
         if (Common.changed) {
             adapter.notifyDataSetChanged();
+            Common.changed = false;
         }
     }
 }
