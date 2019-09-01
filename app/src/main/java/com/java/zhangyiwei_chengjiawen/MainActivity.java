@@ -28,7 +28,6 @@ import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
-import java.util.Collections;
 
 /*TODO
  * 存储
@@ -132,7 +131,7 @@ public class MainActivity extends AppCompatActivity {
                 } catch (Exception e) {
                     flag = false;
                 }
-            else flag =  false;
+            else flag = false;
             if (oos != null)
                 try {
                     oos.close();
@@ -152,19 +151,19 @@ public class MainActivity extends AppCompatActivity {
             fis = openFileInput("data");
             ois = new ObjectInputStream(fis);
             Object[] objects = (Object[]) ois.readObject();
-            Common.history = (ArrayList<String>)objects[0];
-            Common.added = (ArrayList<Integer>)objects[1];
-            Common.deleted = (ArrayList<Integer>)objects[2];
+            Common.history = (ArrayList<String>) objects[0];
+            Common.added = (ArrayList<Integer>) objects[1];
+            Common.deleted = (ArrayList<Integer>) objects[2];
         } catch (Exception e) {
             flag = false;
         } finally {
-            if(fis != null)
+            if (fis != null)
                 try {
                     fis.close();
                 } catch (Exception e) {
                     flag = false;
                 }
-            if(ois != null)
+            if (ois != null)
                 try {
                     ois.close();
                 } catch (Exception e) {

@@ -16,7 +16,7 @@
             android:layout_centerVertical="true"
             android:paddingStart="@dimen/paddingLR"
             android:paddingEnd="15dp"
-            android:text="×"
+            android:text="@string/delete"
             android:textColor="@color/black"
             android:textSize="26sp" />
 
@@ -25,7 +25,7 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_toEndOf="@id/chooseClose"
-            android:text="新闻频道"
+            android:text="@string/categoryDialogTitle"
             android:textColor="@color/black"
             android:textSize="18sp" />
     </RelativeLayout>
