@@ -1,15 +1,18 @@
 package com.java.zhangyiwei_chengjiawen;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -46,6 +49,14 @@ class NewsListAdapter extends BaseAdapter {
     private Context context;
     private ArrayList<HashMap<String, String>> data;
 
+    class ViewHolder {
+        private TextView itemTitle;
+        private ImageView itemImage;
+        private TextView itemSubtitle;
+        private TextView itemTime;
+        String info;
+    }
+
     NewsListAdapter(Context context, ArrayList<HashMap<String, String>> data) {
         this.context = context;
         this.data = data;
@@ -68,13 +79,6 @@ class NewsListAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        class ViewHolder {
-            private TextView itemTitle;
-            private ImageView itemImage;
-            private TextView itemSubtitle;
-            private TextView itemTime;
-        }
-
         ViewHolder viewHolder;
         HashMap<String, String> map = data.get(position);
         if (convertView == null) {
@@ -110,6 +114,7 @@ class NewsListAdapter extends BaseAdapter {
         viewHolder.itemTitle.setText(map.get("itemTitle"));
         viewHolder.itemSubtitle.setText(map.get("itemSubtitle"));
         viewHolder.itemTime.setText(map.get("itemTime"));
+        viewHolder.info = map.get("info");
         return convertView;
     }
 }
@@ -145,6 +150,7 @@ public class NewsFragment extends Fragment {
                         map.put("itemTitle", data.getString("title"));
                         map.put("itemSubtitle", data.getString("publisher"));
                         map.put("itemTime", data.getString("publishTime"));
+                        map.put("info", allData.getString(i));
                         itemList.add(map);
                     }
                 } catch (JSONException e) {
@@ -156,6 +162,7 @@ public class NewsFragment extends Fragment {
                 map.put("itemTitle", "Getting news item failed");
                 map.put("itemSubtitle", (String) msg.obj);
                 map.put("itemTime", "");
+                map.put("info", "");
                 itemList.add(map);
             }
             adapter.notifyDataSetChanged();
@@ -169,6 +176,16 @@ public class NewsFragment extends Fragment {
         sdf.setTimeZone(TimeZone.getTimeZone("GMT+8"));
         View view = inflater.inflate(R.layout.news_fragment, container, false);
         newsList = view.findViewById(R.id.newsList);
+//        newsList.setDescendantFocusability(ListView.FOCUS_BLOCK_DESCENDANTS);
+        newsList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                NewsListAdapter.ViewHolder viewHolder = (NewsListAdapter.ViewHolder)view.getTag();
+                Intent intent = new Intent(getContext(), NewsShowActivity.class);
+                intent.putExtra("info", viewHolder.info);
+                startActivityForResult(intent, 0);
+            }
+        });
         getNews(true);
 
         //Refresh

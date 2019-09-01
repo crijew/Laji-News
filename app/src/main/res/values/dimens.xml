@@ -9,4 +9,7 @@
     <dimen name="clearHistoryTextSize">13sp</dimen>
     <dimen name="historyTextSize">15sp</dimen>
     <dimen name="newsShowTitleSize">25sp</dimen>
+    <dimen name="newsShowTimeSize">15sp</dimen>
+    <dimen name="newsShowMainImageSize">20dp</dimen>
+    <dimen name="newsShowContentSize">16sp</dimen>
 </resources>
