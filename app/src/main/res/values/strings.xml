@@ -6,4 +6,5 @@
     <string name="history">历史记录</string>
     <string name="clearHistory">清空</string>
     <string name="delete">×</string>
+    <string name="categoryDialogTitle">新闻频道</string>
 </resources>

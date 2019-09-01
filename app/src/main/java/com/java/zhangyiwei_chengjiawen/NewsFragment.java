@@ -8,7 +8,6 @@ import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,7 +21,6 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
-import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshLoadMoreListener;
 
 import org.json.JSONArray;
@@ -180,7 +178,7 @@ public class NewsFragment extends Fragment {
         newsList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                NewsListAdapter.ViewHolder viewHolder = (NewsListAdapter.ViewHolder)view.getTag();
+                NewsListAdapter.ViewHolder viewHolder = (NewsListAdapter.ViewHolder) view.getTag();
                 Intent intent = new Intent(getContext(), NewsShowActivity.class);
                 intent.putExtra("info", viewHolder.info);
                 startActivityForResult(intent, 0);
@@ -215,8 +213,11 @@ public class NewsFragment extends Fragment {
 
     @Override
     public void onHiddenChanged(boolean hidden) {
-        if (hidden) return;
-        newsList.setAdapter(new NewsListAdapter(getContext(), new ArrayList<HashMap<String, String>>()));
+        if (hidden) {
+            itemList.clear();
+            adapter.notifyDataSetChanged();
+            return;
+        }
         getNews(true);
     }
 

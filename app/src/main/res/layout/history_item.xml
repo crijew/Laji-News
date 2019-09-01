@@ -1,24 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingTop="10dp"
-    android:paddingBottom="10dp"
     android:paddingStart="@dimen/paddingLR"
-    android:paddingEnd="@dimen/paddingLR">
+    android:paddingTop="10dp"
+    android:paddingEnd="@dimen/paddingLR"
+    android:paddingBottom="10dp">
+
     <TextView
         android:id="@+id/historyText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_toStartOf="@id/deleteHistory"
-        android:textSize="@dimen/historyTextSize"/>
+        android:textSize="@dimen/historyTextSize" />
+
     <TextView
         android:id="@+id/deleteHistory"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:text=""
-        android:textSize="@dimen/historyTextSize"/>
+        android:textSize="@dimen/historyTextSize" />
 </RelativeLayout>

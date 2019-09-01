@@ -7,6 +7,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BottomSheetDialog;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.GridLayoutManager;
@@ -156,12 +157,42 @@ class DeletedAdapter extends BaseAdapter {
     }
 }
 
+class ViewPagerAdapter extends FragmentStatePagerAdapter {
+    private ArrayList<NewsFragment> fragmentList = new ArrayList<>();
+
+    ViewPagerAdapter(FragmentManager fm) {
+        super(fm);
+        for (int index : Common.added) {
+            NewsFragment fragment = new NewsFragment();
+            Bundle bundle = new Bundle();
+            bundle.putString("word", "");
+            bundle.putString("type", Common.category[index]);
+            fragment.setArguments(bundle);
+            fragmentList.add(fragment);
+        }
+    }
+
+    @Override
+    public int getItemPosition(@NonNull Object object) {
+        return super.getItemPosition(object);
+    }
+
+    @Override
+    public Fragment getItem(int i) {
+        return fragmentList.get(i);
+    }
+
+    @Override
+    public int getCount() {
+        return fragmentList.size();
+    }
+}
+
 public class ContentFragment extends Fragment {
     private BottomSheetDialog categoryDialog;
     ViewPager newsViewPager;
     private LinearLayout categoryMenu;
     private CategoryTextView[] categories = new CategoryTextView[Common.category.length];
-    private ArrayList<NewsFragment> fragmentList = new ArrayList<>();
     BaseAdapter addedAdapter, deletedAdapter;
 
     @Nullable
@@ -181,17 +212,7 @@ public class ContentFragment extends Fragment {
                         categoryMenu.addView(categories[index]);
                     }
                     newsViewPager.removeAllViews();
-                    newsViewPager.setAdapter(new FragmentStatePagerAdapter(getFragmentManager()) {
-                        @Override
-                        public Fragment getItem(int i) {
-                            return fragmentList.get(Common.added.get(i));
-                        }
-
-                        @Override
-                        public int getCount() {
-                            return Common.added.size();
-                        }
-                    });
+                    newsViewPager.setAdapter(new ViewPagerAdapter(getFragmentManager()));
                     newsViewPager.setCurrentItem(0);
                     categoryMenu.post(new Runnable() {
                         @Override
@@ -199,7 +220,7 @@ public class ContentFragment extends Fragment {
                             ((HorizontalScrollView) categoryMenu.getParent()).smoothScrollTo(0, 0);
                         }
                     });
-                    ((MainActivity)getActivity()).saveData();
+                    ((MainActivity) getActivity()).saveData();
                 }
             });
             categoryDialog.setCancelable(false);
@@ -280,26 +301,7 @@ public class ContentFragment extends Fragment {
             }
         });
 
-        //bind category to news ViewPager
-        for (int i = 0; i < Common.category.length; ++i) {
-            NewsFragment fragment = new NewsFragment();
-            Bundle bundle = new Bundle();
-            bundle.putString("word", "");
-            bundle.putString("type", Common.category[i]);
-            fragment.setArguments(bundle);
-            fragmentList.add(fragment);
-        }
-        newsViewPager.setAdapter(new FragmentStatePagerAdapter(getFragmentManager()) {
-            @Override
-            public Fragment getItem(int i) {
-                return fragmentList.get(Common.added.get(i));
-            }
-
-            @Override
-            public int getCount() {
-                return Common.added.size();
-            }
-        });
+        newsViewPager.setAdapter(new ViewPagerAdapter(getFragmentManager()));
         return view;
     }
 }
