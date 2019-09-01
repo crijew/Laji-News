@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:visibility="invisible"
+    android:background="@color/commonBG"
     tools:context="com.java.zhangyiwei_chengjiawen.SearchFragment">
 
     <RelativeLayout
@@ -23,7 +24,7 @@
             android:layout_alignParentStart="true"
             android:layout_toStartOf="@id/clearHistory"
             android:text="@string/history"
-            android:textColor="@color/black"
+            android:textColor="@color/mainText"
             android:textSize="@dimen/textSize" />
 
         <TextView
@@ -34,8 +35,8 @@
             android:clickable="true"
             android:focusable="true"
             android:text="@string/clearHistory"
-            android:textColor="@color/grey"
-            android:textSize="@dimen/textSize" />
+            android:textColor="@color/smallText"
+            android:textSize="@dimen/searchTextSize" />
     </RelativeLayout>
 
     <ListView
@@ -43,6 +44,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:divider="@drawable/listview_divider"
-        android:dividerHeight="0.1dp" />
+        android:dividerHeight="0.5dp" />
 </LinearLayout>
 

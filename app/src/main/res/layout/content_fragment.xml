@@ -10,7 +10,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/bottom_border"
+        android:background="@drawable/top_bottom_border"
         android:gravity="center_vertical"
         android:orientation="horizontal"
         android:paddingTop="8dp"
@@ -26,7 +26,7 @@
             android:paddingLeft="@dimen/paddingLR"
             android:paddingRight="@dimen/paddingLR"
             android:text="@string/menuIcon"
-            android:textColor="@color/black"
+            android:textColor="@color/mainText"
             android:textSize="@dimen/textSize" />
 
         <HorizontalScrollView
@@ -40,6 +40,7 @@
                 android:id="@+id/categoryMenu"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:background="@color/commonBG"
                 android:orientation="horizontal"
                 android:paddingStart="5dp"
                 android:paddingEnd="5dp" />

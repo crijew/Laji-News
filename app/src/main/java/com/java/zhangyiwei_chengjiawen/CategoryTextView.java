@@ -56,8 +56,8 @@ public class CategoryTextView extends AppCompatTextView {
     protected void onDraw(Canvas canvas) {
         if (!available) return;
         if (index == Common.added.get(Common.currentItem))
-            setTextColor(ContextCompat.getColor(getContext(), R.color.red));
-        else setTextColor(ContextCompat.getColor(getContext(), R.color.black));
+            setTextColor(ContextCompat.getColor(getContext(), R.color.categoryTextSelected));
+        else setTextColor(ContextCompat.getColor(getContext(), R.color.categoryTextNotSelected));
         super.onDraw(canvas);
     }
 }
