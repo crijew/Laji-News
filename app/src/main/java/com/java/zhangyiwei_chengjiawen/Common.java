@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 class Common {
+    static boolean nightMode = true;
     static ArrayList<String> history = new ArrayList<>();
     static int currentItem = 0;
     final static String[] category = {"收藏", "娱乐", "军事", "教育", "文化", "健康", "财经", "体育", "汽车", "科技", "社会"};

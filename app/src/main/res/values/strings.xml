@@ -3,7 +3,7 @@
     <string name="menuIcon">≡</string>
     <string name="searchBoxText">搜点什么</string>
     <string name="search">搜索</string>
-    <string name="history">历史记录</string>
+    <string name="history">搜索历史</string>
     <string name="clearHistory">清空</string>
     <string name="delete">×</string>
     <string name="categoryDialogTitle">新闻频道</string>

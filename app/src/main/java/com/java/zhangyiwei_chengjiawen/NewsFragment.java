@@ -188,13 +188,7 @@ public class NewsFragment extends Fragment {
 
         //Refresh
         SmartRefreshLayout refreshLayout = view.findViewById(R.id.refreshLayout);
-//        refreshLayout.setRefreshStyle(PullRefreshLayout.STYLE_CIRCLES);
-//        refreshLayout.setColorSchemeColors(
-//                Color.rgb(182, 182, 182),
-//                Color.rgb(92, 172, 238),
-//                Color.rgb(92, 172, 238),
-//                Color.rgb(92, 172, 238)
-//        );
+        refreshLayout.setPrimaryColorsId(R.color.newsFragmentBG, R.color.waterDrop);
         refreshLayout.setOnRefreshLoadMoreListener(new OnRefreshLoadMoreListener() {
             @Override
             public void onLoadMore(@NonNull RefreshLayout refreshLayout) {

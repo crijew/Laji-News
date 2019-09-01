@@ -1,5 +1,6 @@
 package com.java.zhangyiwei_chengjiawen;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -9,6 +10,7 @@ import android.support.design.widget.BottomSheetDialog;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -31,6 +33,7 @@ abstract class BaseAdapter
         extends RecyclerView.Adapter<AddedAdapter.ViewHolder>
         implements DraggableItemAdapter<AddedAdapter.ViewHolder> {
     BaseAdapter oppose;
+    Context context;
 
     static class ViewHolder extends AbstractDraggableItemViewHolder {
         TextView categoryText;
@@ -43,8 +46,9 @@ abstract class BaseAdapter
         }
     }
 
-    BaseAdapter() {
+    BaseAdapter(Context context) {
         setHasStableIds(true);
+        this.context = context;
     }
 
     @NonNull
@@ -90,10 +94,14 @@ abstract class BaseAdapter
 }
 
 class AddedAdapter extends BaseAdapter {
+    public AddedAdapter(Context context) {
+        super(context);
+    }
+
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder viewHolder, int i) {
         viewHolder.categoryText.setText(Common.category[Common.added.get(i + 1)]);
-        viewHolder.categoryText.setTextColor(Color.rgb(0, 0, 0));
+        viewHolder.categoryText.setTextColor(ContextCompat.getColor(context, R.color.categoryAdded));
         viewHolder.categoryText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -124,10 +132,14 @@ class AddedAdapter extends BaseAdapter {
 }
 
 class DeletedAdapter extends BaseAdapter {
+    public DeletedAdapter(Context context) {
+        super(context);
+    }
+
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder viewHolder, int i) {
         viewHolder.categoryText.setText(Common.category[Common.deleted.get(i)]);
-        viewHolder.categoryText.setTextColor(Color.rgb(0xB6, 0xB6, 0xB6));
+        viewHolder.categoryText.setTextColor(ContextCompat.getColor(context, R.color.categoryDeleted));
         viewHolder.categoryText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -235,7 +247,7 @@ public class ContentFragment extends Fragment {
             RecyclerView added = chooseCategory.findViewById(R.id.categoryAdded);
             added.setLayoutManager(new GridLayoutManager(getContext(), 4));
             RecyclerViewDragDropManager addedManager = new RecyclerViewDragDropManager();
-            addedAdapter = new AddedAdapter();
+            addedAdapter = new AddedAdapter(getContext());
             added.setAdapter(addedManager.createWrappedAdapter(addedAdapter));
             ((SimpleItemAnimator) added.getItemAnimator()).setSupportsChangeAnimations(false);
             addedManager.attachRecyclerView(added);
@@ -243,7 +255,7 @@ public class ContentFragment extends Fragment {
             RecyclerView deleted = chooseCategory.findViewById(R.id.categoryDeleted);
             deleted.setLayoutManager(new GridLayoutManager(getContext(), 4));
             RecyclerViewDragDropManager deletedManager = new RecyclerViewDragDropManager();
-            deletedAdapter = new DeletedAdapter();
+            deletedAdapter = new DeletedAdapter(getContext());
             deleted.setAdapter(deletedManager.createWrappedAdapter(deletedAdapter));
             ((SimpleItemAnimator) deleted.getItemAnimator()).setSupportsChangeAnimations(false);
             deletedManager.attachRecyclerView(deleted);

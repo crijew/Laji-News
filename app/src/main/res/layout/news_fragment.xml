@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/lightGrey"
+    android:background="@color/newsFragmentBG"
     tools:context="com.java.zhangyiwei_chengjiawen.NewsFragment">
     <!--News list-->
     <com.scwang.smartrefresh.layout.SmartRefreshLayout

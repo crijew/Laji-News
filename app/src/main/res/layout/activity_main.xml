@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
+    android:background="@color/commonBG"
     android:orientation="vertical">
 
     <!--Status bar-->
@@ -11,75 +11,69 @@
         android:id="@+id/statusBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/blue"
+        android:background="@color/header"
         android:orientation="horizontal" />
 
     <!--Search box-->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/blue"
-        android:gravity="center">
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingStart="@dimen/paddingLR"
+        android:paddingEnd="0dp"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        android:background="@color/header">
 
-        <LinearLayout
-            android:layout_width="match_parent"
+        <android.support.v7.widget.CardView
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/paddingLR"
-            android:layout_marginEnd="0dp"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:paddingTop="5dp"
-            android:paddingBottom="5dp">
+            android:layout_weight="1"
+            app:cardCornerRadius="7dp">
 
-            <android.support.v7.widget.CardView
-                android:layout_width="0dp"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                app:cardBackgroundColor="@color/white"
-                app:cardCornerRadius="7dp">
+                android:background="@color/searchBoxBG"
+                android:clickable="true"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:orientation="horizontal">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
+                <ImageView
+                    android:id="@+id/searchIcon"
+                    android:layout_width="48dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp" />
+
+                <EditText
+                    android:id="@+id/searchText"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:focusableInTouchMode="true"
-                    android:orientation="horizontal">
+                    android:layout_weight="1"
+                    android:background="@color/searchBoxBG"
+                    android:hint="@string/searchBoxText"
+                    android:imeOptions="actionSearch"
+                    android:inputType="text"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="10dp"
+                    android:singleLine="true"
+                    android:textSize="@dimen/searchTextSize" />
+            </LinearLayout>
+        </android.support.v7.widget.CardView>
 
-                    <ImageView
-                        android:id="@+id/searchIcon"
-                        android:layout_width="48dp"
-                        android:layout_height="match_parent"
-                        android:layout_marginTop="10dp"
-                        android:layout_marginBottom="10dp" />
-
-                    <EditText
-                        android:id="@+id/searchText"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:background="@color/white"
-                        android:hint="@string/searchBoxText"
-                        android:imeOptions="actionSearch"
-                        android:inputType="text"
-                        android:paddingTop="10dp"
-                        android:paddingBottom="10dp"
-                        android:singleLine="true"
-                        android:textSize="@dimen/searchTextSize" />
-                </LinearLayout>
-            </android.support.v7.widget.CardView>
-
-            <TextView
-                android:id="@+id/searchButton"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:paddingLeft="@dimen/paddingLR"
-                android:paddingRight="@dimen/paddingLR"
-                android:text="@string/search"
-                android:textColor="@color/white"
-                android:textSize="@dimen/searchTextSize" />
-        </LinearLayout>
+        <TextView
+            android:id="@+id/searchButton"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:paddingStart="@dimen/paddingLR"
+            android:paddingEnd="@dimen/paddingLR"
+            android:text="@string/search"
+            android:textColor="@color/searchButton"
+            android:textSize="@dimen/searchTextSize" />
     </LinearLayout>
 
     <FrameLayout

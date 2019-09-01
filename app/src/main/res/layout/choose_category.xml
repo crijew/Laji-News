@@ -17,7 +17,7 @@
             android:paddingStart="@dimen/paddingLR"
             android:paddingEnd="15dp"
             android:text="@string/delete"
-            android:textColor="@color/black"
+            android:textColor="@color/mainText"
             android:textSize="26sp" />
 
         <TextView
@@ -26,7 +26,7 @@
             android:layout_centerVertical="true"
             android:layout_toEndOf="@id/chooseClose"
             android:text="@string/categoryDialogTitle"
-            android:textColor="@color/black"
+            android:textColor="@color/mainText"
             android:textSize="18sp" />
     </RelativeLayout>
 
@@ -35,7 +35,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/chooseCategoryTitle"
-        android:background="@color/white"
+        android:background="@color/commonBG"
         android:paddingStart="@dimen/paddingLR"
         android:paddingTop="5dp"
         android:paddingEnd="@dimen/paddingLR" />
@@ -47,14 +47,14 @@
         android:layout_below="@id/categoryAdded"
         android:layout_marginStart="@dimen/paddingLR"
         android:layout_marginEnd="@dimen/paddingLR"
-        android:background="@color/grey" />
+        android:background="@color/border" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/categoryDeleted"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/line"
-        android:background="@color/white"
+        android:background="@color/commonBG"
         android:paddingStart="@dimen/paddingLR"
         android:paddingTop="10dp"
         android:paddingEnd="@dimen/paddingLR" />

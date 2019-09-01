@@ -1,12 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#008577</color>
-    <color name="colorPrimaryDark">#00574B</color>
-    <color name="colorAccent">#D81B60</color>
-    <color name="black">#000000</color>
-    <color name="blue">#5CACEE</color>
     <color name="white">#FFFFFF</color>
-    <color name="grey">#B6B6B6</color>
-    <color name="red">#FF0000</color>
-    <color name="lightGrey">#F3F3F3</color>
+    <color name="colorPrimary">#5CACEE</color>
+    <color name="colorPrimaryDark">#5CACEE</color>
+    <color name="colorAccent">#5CACEE</color>
+    <color name="categoryTextNotSelected">#000000</color>
+    <color name="categoryTextSelected">#FF0000</color>
+    <color name="mainText">#000000</color>
+    <color name="header">#5CACEE</color>
+    <color name="commonBG">#FFFFFF</color>
+    <color name="searchBoxBG">#FFFFFF</color>
+    <color name="searchButton">#FFFFFF</color>
+    <color name="border">#B6B6B6</color>
+    <color name="smallText">#B6B6B6</color>
+    <color name="categoryBG">#F3F3F3</color>
+    <color name="categoryAdded">#000000</color>
+    <color name="categoryDeleted">#B6B6B6</color>
+    <color name="newsFragmentBG">#F3F3F3</color>
+    <color name="waterDrop">#5CACEE</color>
 </resources>

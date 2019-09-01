@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@color/white"
+    android:background="@color/commonBG"
     android:orientation="vertical">
 
     <!--Status bar-->
@@ -15,7 +15,7 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         android:orientation="horizontal"
-        android:background="@color/white"
+        android:background="@color/commonBG"
         android:id="@+id/statusBarNews"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -27,7 +27,7 @@
     <android.support.constraint.ConstraintLayout
         android:id="@+id/newsBanner"
         android:padding="10dp"
-        android:background="@color/white"
+        android:background="@color/commonBG"
         app:layout_constraintTop_toBottomOf="@id/statusBarNews"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
