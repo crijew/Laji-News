@@ -2,7 +2,9 @@ package com.java.zhangyiwei_chengjiawen;
 
 import android.content.Context;
 import android.content.DialogInterface;
-import android.graphics.Color;
+import android.content.Intent;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.TransitionDrawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -10,15 +12,23 @@ import android.support.design.widget.BottomSheetDialog;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SimpleItemAnimator;
+import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 import android.widget.HorizontalScrollView;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -200,17 +210,38 @@ class ViewPagerAdapter extends FragmentStatePagerAdapter {
     }
 }
 
-public class ContentFragment extends Fragment {
+public class MainFragment extends Fragment {
+    private View rootView;
+    private ViewPager newsViewPager;
     private BottomSheetDialog categoryDialog;
-    ViewPager newsViewPager;
     private LinearLayout categoryMenu;
     private CategoryTextView[] categories = new CategoryTextView[Common.category.length];
-    BaseAdapter addedAdapter, deletedAdapter;
+    private EditText searchText;
 
     @Nullable
     @Override
-    public View onCreateView(@NonNull final LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        final View view = inflater.inflate(R.layout.content_fragment, container, false);
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        rootView = inflater.inflate(R.layout.main_fragment, container, false);
+
+        //Search box
+        searchText = rootView.findViewById(R.id.searchText);
+        searchText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) {
+                    startActivity(new Intent(getContext(), SearchActivity.class));
+                    getActivity().overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+                    searchText.clearFocus();
+                }
+            }
+        });
+
+        rootView.findViewById(R.id.searchIcon).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                searchText.requestFocus();
+            }
+        });
 
         //Choose category dialog
         {
@@ -232,7 +263,7 @@ public class ContentFragment extends Fragment {
                             ((HorizontalScrollView) categoryMenu.getParent()).smoothScrollTo(0, 0);
                         }
                     });
-                    ((MainActivity) getActivity()).saveData();
+                    Common.saveData(getContext());
                 }
             });
             categoryDialog.setCancelable(false);
@@ -247,7 +278,7 @@ public class ContentFragment extends Fragment {
             RecyclerView added = chooseCategory.findViewById(R.id.categoryAdded);
             added.setLayoutManager(new GridLayoutManager(getContext(), 4));
             RecyclerViewDragDropManager addedManager = new RecyclerViewDragDropManager();
-            addedAdapter = new AddedAdapter(getContext());
+            BaseAdapter addedAdapter = new AddedAdapter(getContext());
             added.setAdapter(addedManager.createWrappedAdapter(addedAdapter));
             ((SimpleItemAnimator) added.getItemAnimator()).setSupportsChangeAnimations(false);
             addedManager.attachRecyclerView(added);
@@ -255,7 +286,7 @@ public class ContentFragment extends Fragment {
             RecyclerView deleted = chooseCategory.findViewById(R.id.categoryDeleted);
             deleted.setLayoutManager(new GridLayoutManager(getContext(), 4));
             RecyclerViewDragDropManager deletedManager = new RecyclerViewDragDropManager();
-            deletedAdapter = new DeletedAdapter(getContext());
+            BaseAdapter deletedAdapter = new DeletedAdapter(getContext());
             deleted.setAdapter(deletedManager.createWrappedAdapter(deletedAdapter));
             ((SimpleItemAnimator) deleted.getItemAnimator()).setSupportsChangeAnimations(false);
             deletedManager.attachRecyclerView(deleted);
@@ -265,7 +296,7 @@ public class ContentFragment extends Fragment {
         }
 
         //Change category button
-        view.findViewById(R.id.categoryChange).setOnClickListener(new View.OnClickListener() {
+        rootView.findViewById(R.id.categoryChange).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 categoryDialog.show();
@@ -275,13 +306,13 @@ public class ContentFragment extends Fragment {
         //Add category menu
         for (int i = 0; i < Common.category.length; ++i)
             categories[i] = new CategoryTextView(getContext(), i);
-        categoryMenu = view.findViewById(R.id.categoryMenu);
+        categoryMenu = rootView.findViewById(R.id.categoryMenu);
         for (int index : Common.added) {
             categoryMenu.addView(categories[index]);
         }
 
         //combine category menu and news ViewPager
-        newsViewPager = view.findViewById(R.id.newsViewPaper);
+        newsViewPager = rootView.findViewById(R.id.newsViewPaper);
         newsViewPager.setOffscreenPageLimit(11);
         newsViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -301,7 +332,7 @@ public class ContentFragment extends Fragment {
                     @Override
                     public void run() {
                         int width = scrollTo.getWidth();
-                        ((HorizontalScrollView) view.findViewById(R.id.categoryMenuScrollView)).
+                        ((HorizontalScrollView) rootView.findViewById(R.id.categoryMenuScrollView)).
                                 smoothScrollTo(toItem * width + MainActivity.dpToPx(getContext(), 20 * toItem), 0);
                     }
                 });
@@ -312,8 +343,8 @@ public class ContentFragment extends Fragment {
 
             }
         });
-
+        newsViewPager.setCurrentItem(Common.currentItem);
         newsViewPager.setAdapter(new ViewPagerAdapter(getFragmentManager()));
-        return view;
+        return rootView;
     }
 }

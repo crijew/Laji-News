@@ -171,9 +171,9 @@ public class NewsFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View rootView = inflater.inflate(R.layout.news_fragment, container, false);
         sdf.setTimeZone(TimeZone.getTimeZone("GMT+8"));
-        View view = inflater.inflate(R.layout.news_fragment, container, false);
-        newsList = view.findViewById(R.id.newsList);
+        newsList = rootView.findViewById(R.id.newsList);
 //        newsList.setDescendantFocusability(ListView.FOCUS_BLOCK_DESCENDANTS);
         newsList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -187,7 +187,7 @@ public class NewsFragment extends Fragment {
         getNews(true);
 
         //Refresh
-        SmartRefreshLayout refreshLayout = view.findViewById(R.id.refreshLayout);
+        SmartRefreshLayout refreshLayout = rootView.findViewById(R.id.refreshLayout);
         refreshLayout.setPrimaryColorsId(R.color.newsFragmentBG, R.color.waterDrop);
         refreshLayout.setOnRefreshLoadMoreListener(new OnRefreshLoadMoreListener() {
             @Override
@@ -202,7 +202,7 @@ public class NewsFragment extends Fragment {
                 refreshLayout.finishRefresh();
             }
         });
-        return view;
+        return rootView;
     }
 
     @Override

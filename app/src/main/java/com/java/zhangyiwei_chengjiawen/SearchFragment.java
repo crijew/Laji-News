@@ -1,5 +1,6 @@
 package com.java.zhangyiwei_chengjiawen;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -8,64 +9,108 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.BaseAdapter;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.SimpleAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
+class HistoryListAdapter extends BaseAdapter {
+    private Context context;
+
+    private class ViewHolder {
+        private TextView historyText;
+        private TextView deleteHistory;
+    }
+
+    HistoryListAdapter(Context context) {
+        this.context = context;
+    }
+
+    @Override
+    public int getCount() {
+        return Common.history.size();
+    }
+
+    @Override
+    public Object getItem(int position) {
+        return Common.history.get(getCount() - 1 - position);
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return position;
+    }
+
+    @Override
+    public View getView(int position, View convertView, ViewGroup parent) {
+        ViewHolder viewHolder;
+        final String data = (String) getItem(position);
+        if (convertView == null) {
+            LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            convertView = inflater.inflate(R.layout.history_item, parent, false);
+            viewHolder = new ViewHolder();
+            viewHolder.historyText = convertView.findViewById(R.id.historyText);
+            viewHolder.deleteHistory = convertView.findViewById(R.id.deleteHistory);
+            convertView.setTag(viewHolder);
+        } else viewHolder = (ViewHolder) convertView.getTag();
+        viewHolder.historyText.setText(data);
+        viewHolder.deleteHistory.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(context, data, Toast.LENGTH_SHORT).show();
+            }
+        });
+        return convertView;
+    }
+}
 
 public class SearchFragment extends Fragment {
-    View view;
+    View rootView;
+    View historyTitle;
+    ListView historyList;
+    HistoryListAdapter adapter;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.search_fragment, container, false);
-        view.findViewById(R.id.clearHistory).setOnClickListener(new View.OnClickListener() {
+        rootView = inflater.inflate(R.layout.search_fragment, container, false);
+
+        adapter = new HistoryListAdapter(getContext());
+
+        historyTitle = rootView.findViewById(R.id.history_title);
+        if (adapter.getCount() == 0)
+            historyTitle.setVisibility(View.GONE);
+        rootView.findViewById(R.id.clearHistory).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Common.history.clear();
-                ((MainActivity) getActivity()).saveData();
-                view.findViewById(R.id.search_fragment).setVisibility(View.INVISIBLE);
+                Common.saveData(getContext());
+                historyTitle.setVisibility(View.GONE);
             }
         });
-        ((ListView) view.findViewById(R.id.historyList)).setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+        historyList = rootView.findViewById(R.id.historyList);
+        historyList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String text = Common.history.get(Common.history.size() - 1 - position);
+                String text = (String) adapter.getItem(position);
                 ((EditText) getActivity().findViewById(R.id.searchText)).setText(text);
                 getActivity().findViewById(R.id.searchButton).performClick();
             }
         });
-        return view;
+        historyList.setAdapter(adapter);
+        return rootView;
     }
 
     @Override
     public void onHiddenChanged(boolean hidden) {
-        LinearLayout searchFragment = view.findViewById(R.id.search_fragment);
-        if (hidden) {
-            searchFragment.setVisibility(View.INVISIBLE);
-            return;
-        }
-        if (Common.history.isEmpty()) searchFragment.setVisibility(View.INVISIBLE);
-        else {
-            searchFragment.setVisibility(View.VISIBLE);
-            ListView historyList = view.findViewById(R.id.historyList);
-            ArrayList<Map<String, String>> data = new ArrayList<>();
-            for (int i = Common.history.size() - 1; i >= 0; --i) {
-                HashMap<String, String> map = new HashMap<>();
-                map.put("historyText", Common.history.get(i));
-                data.add(map);
-            }
-            historyList.setAdapter(new SimpleAdapter(
-                    getContext(), data, R.layout.history_item,
-                    new String[]{"historyText"},
-                    new int[]{R.id.historyText}));
-            historyList.invalidate();
+        if (!hidden) {
+            adapter.notifyDataSetChanged();
+            if (adapter.getCount() == 0)
+                historyTitle.setVisibility(View.GONE);
+            else
+                historyTitle.setVisibility(View.VISIBLE);
         }
     }
 }
