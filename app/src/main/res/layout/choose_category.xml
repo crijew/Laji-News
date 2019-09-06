@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/dialog">
+
+    <RelativeLayout
+        android:id="@+id/chooseCategoryTitle"
+        android:layout_width="match_parent"
+        android:layout_height="45dp">
+
+        <TextView
+            android:id="@+id/chooseClose"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:paddingStart="@dimen/paddingLR"
+            android:paddingEnd="15dp"
+            android:text="@string/delete"
+            android:textColor="@color/mainText"
+            android:textSize="26sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toEndOf="@id/chooseClose"
+            android:text="@string/categoryDialogTitle"
+            android:textColor="@color/mainText"
+            android:textSize="18sp" />
+    </RelativeLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/categoryAdded"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/chooseCategoryTitle"
+        android:background="@color/commonBG"
+        android:paddingStart="@dimen/paddingLR"
+        android:paddingTop="5dp"
+        android:paddingEnd="@dimen/paddingLR" />
+
+    <View
+        android:id="@+id/line"
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_below="@id/categoryAdded"
+        android:layout_marginStart="@dimen/paddingLR"
+        android:layout_marginEnd="@dimen/paddingLR"
+        android:background="@color/border" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/categoryDeleted"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/line"
+        android:background="@color/commonBG"
+        android:paddingStart="@dimen/paddingLR"
+        android:paddingTop="10dp"
+        android:paddingEnd="@dimen/paddingLR" />
+</RelativeLayout>

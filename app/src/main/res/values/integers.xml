@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <integer name="textSize">17</integer>
+    <integer name="paddingLR">15</integer>
+    <integer name="categoryTextPadding">10</integer>
+</resources>

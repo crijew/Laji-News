@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:visibility="invisible"
+    android:background="@color/commonBG"
+    tools:context="com.java.zhangyiwei_chengjiawen.SearchFragment">
+
+    <RelativeLayout
+        android:id="@+id/history_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingStart="@dimen/paddingLR"
+        android:paddingTop="10dp"
+        android:paddingEnd="@dimen/paddingLR"
+        android:paddingBottom="10dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_toStartOf="@id/clearHistory"
+            android:text="@string/history"
+            android:textColor="@color/mainText"
+            android:textSize="@dimen/textSize" />
+
+        <TextView
+            android:id="@+id/clearHistory"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:clickable="true"
+            android:focusable="true"
+            android:text="@string/clearHistory"
+            android:textColor="@color/smallText"
+            android:textSize="@dimen/searchTextSize" />
+    </RelativeLayout>
+
+    <ListView
+        android:id="@+id/historyList"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:divider="@drawable/listview_divider"
+        android:dividerHeight="0.5dp" />
+</LinearLayout>
+

@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView android:id="@+id/newsShowContent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:padding="10dp"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/newsShowContentMain"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/newsShowContentTitle"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:textSize="@dimen/newsShowTitleSize"
+            android:gravity="center"
+            android:textColor="@color/mainText"
+            android:textStyle="bold"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/newsShowContentPublisherTime"
+            android:padding="10dp"
+            app:layout_constraintTop_toBottomOf="@id/newsShowContentTitle"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/newsShowContentPublisher"
+                android:textSize="@dimen/newsShowTimeSize"
+                android:textColor="@color/smallText"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/newsShowContentTime"
+                android:textSize="@dimen/newsShowTimeSize"
+                android:textColor="@color/smallText"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </android.support.constraint.ConstraintLayout>
+
+        <RelativeLayout
+            android:id="@+id/newsShowContentImage"
+            android:padding="10dp"
+            app:layout_constraintTop_toBottomOf="@id/newsShowContentPublisherTime"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            android:layout_width="match_parent"
+            android:layout_height="200dp">
+
+            <com.daimajia.slider.library.SliderLayout
+                android:id="@+id/newsShowContentSlider"
+                app:auto_cycle="true"
+                app:indicator_visibility="visible"
+                app:pager_animation="Accordion"
+                app:pager_animation_span="1100"
+                android:layout_width="match_parent"
+                android:layout_height="200dp">
+            </com.daimajia.slider.library.SliderLayout>
+
+            <com.daimajia.slider.library.Indicators.PagerIndicator
+                android:id="@+id/newsShowContentCustom_Indicator2"
+                style="@style/AndroidImageSlider_Corner_Oval_Orange"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="20dp">
+            </com.daimajia.slider.library.Indicators.PagerIndicator>
+
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/newsShowContentContent"
+            android:padding="10dp"
+            android:textColor="@color/mainText"
+            android:textSize="@dimen/newsShowContentSize"
+            app:layout_constraintTop_toBottomOf="@id/newsShowContentImage"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </android.support.constraint.ConstraintLayout>
+
+</ScrollView>
