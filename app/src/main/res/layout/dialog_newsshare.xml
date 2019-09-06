@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:id="@+id/newsShowDialog"
+    android:layout_margin="10dp"
+    android:layout_gravity="center"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <GridView
+        android:id="@+id/newsShareGrid"
+        android:background="@drawable/alldialog"
+        android:numColumns="auto_fit"
+        android:gravity="center"
+        android:columnWidth="80dp"
+        android:paddingTop="20dp"
+        android:paddingBottom="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    </GridView>
+
+    <View
+        android:alpha="0x80"
+        android:layout_width="match_parent"
+        android:layout_height="10dp">
+
+    </View>
+
+    <Button
+        android:id="@+id/newsShareExit"
+        android:textSize="@dimen/textSize"
+        android:gravity="center"
+        android:text="@string/giveUp"
+        android:background="@drawable/alldialog"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <View
+        android:alpha="0x80"
+        android:layout_width="match_parent"
+        android:layout_height="15dp">
+
+    </View>
+
+
+</LinearLayout>

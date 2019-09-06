@@ -11,5 +11,5 @@
     <dimen name="newsShowTitleSize">25sp</dimen>
     <dimen name="newsShowTimeSize">15sp</dimen>
     <dimen name="newsShowMainImageSize">20dp</dimen>
-    <dimen name="newsShowContentSize">16sp</dimen>
+    <dimen name="newsShowContentSize">17sp</dimen>
 </resources>

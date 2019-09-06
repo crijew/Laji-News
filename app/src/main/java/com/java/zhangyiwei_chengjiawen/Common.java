@@ -12,6 +12,28 @@ import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+class CollectedItem extends Object{
+    String newsID;
+    String info;
+    String title;
+    String subtitle;
+    String time;
+
+    @Override
+    public boolean equals(Object obj) {
+        return (((CollectedItem)obj).newsID.equals(this.newsID));
+    }
+
+    CollectedItem(String newsID, String info, String title, String subtitle, String time){
+        this.newsID = newsID;
+        this.info = info;
+        this.title = title;
+        this.subtitle = subtitle;
+        this.time = time;
+    }
+}
+
+
 class Common {
     static boolean nightMode = false;
     static ArrayList<String> history = new ArrayList<>();
@@ -19,6 +41,8 @@ class Common {
     final static String[] category = {"收藏", "娱乐", "军事", "教育", "文化", "健康", "财经", "体育", "汽车", "科技", "社会"};
     static ArrayList<Integer> added = new ArrayList<>(Arrays.asList(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10));
     static ArrayList<Integer> deleted = new ArrayList<>();
+    //static LinkedHashMap<String, String> collected = new LinkedHashMap<>();
+    static ArrayList<CollectedItem> collected = new ArrayList<>();
 
     static String encodingToUrl(String size, String startDate, String endDate, String words, String categories, String page) {
         String[] args = new String[]{size, startDate, endDate, words, categories, page};
@@ -47,10 +71,11 @@ class Common {
         try {
             ois = new ObjectInputStream(fis);
             Object[] objects = (Object[]) ois.readObject();
-            Common.history = (ArrayList<String>) objects[0];
-            Common.added = (ArrayList<Integer>) objects[1];
-            Common.deleted = (ArrayList<Integer>) objects[2];
-            Common.nightMode = (Boolean) objects[3];
+            history = (ArrayList<String>) objects[0];
+            added = (ArrayList<Integer>) objects[1];
+            deleted = (ArrayList<Integer>) objects[2];
+            nightMode = (Boolean) objects[3];
+            collected = (ArrayList<CollectedItem>) objects[4];
         } catch (Exception e) {
             flag = false;
         }
@@ -78,7 +103,7 @@ class Common {
         }
         try {
             oos = new ObjectOutputStream(fos);
-            Object[] objects = {Common.history, Common.added, Common.deleted, Common.nightMode};
+            Object[] objects = {history, added, deleted, nightMode, collected};
             oos.writeObject(objects);
         } catch (Exception e) {
             flag = false;
@@ -95,4 +120,6 @@ class Common {
         }
         return flag;
     }
+
+
 }

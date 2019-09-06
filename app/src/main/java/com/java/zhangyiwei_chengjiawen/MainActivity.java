@@ -2,6 +2,7 @@ package com.java.zhangyiwei_chengjiawen;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -11,6 +12,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.AppCompatDelegate;
+import android.util.Log;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
@@ -73,8 +75,10 @@ public class MainActivity extends AppCompatActivity {
 
         mainTab = findViewById(R.id.mainTab);
         mainViewPager = findViewById(R.id.mainViewPager);
+        titles.add("收藏");
         titles.add("新闻");
         titles.add("设置");
+        fragments.add(new CollectionFragment());
         fragments.add(new MainFragment());
         fragments.add(new SettingFragment());
         mainViewPager.setAdapter(new FragmentPagerAdapter(getSupportFragmentManager()) {
@@ -102,4 +106,15 @@ public class MainActivity extends AppCompatActivity {
         });
         mainTab.setupWithViewPager(mainViewPager);
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK){
+            Log.d("checkCollect", "oooook");
+            ((CollectionFragment)fragments.get(0)).getAdapter().notifyDataSetChanged();
+        }
+        Log.d("checkCollect", "fuck");
+    }
+
 }
