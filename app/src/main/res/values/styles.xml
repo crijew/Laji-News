@@ -11,5 +11,14 @@
     <style name="WindowAnimationFadeInOut">
         <item name="android:windowEnterAnimation">@anim/fade_in</item>
         <item name="android:windowExitAnimation">@anim/fade_out</item>
+    <style name="PopupWindow">
+        <item name="android:windowEnterAnimation">@anim/popup_menu_enter_from_bottom</item>
+        <item name="android:windowExitAnimation">@anim/popup_menu_exit_to_bottom</item>
+    </style>
+    <style name="PopupWindowEnter">
+        <item name="android:windowEnterAnimation">@anim/popup_menu_enter_from_bottom</item>
+    </style>
+    <style name="PopupWindowExit">
+        <item name="android:windowExitAnimation">@anim/popup_menu_exit_to_bottom</item>
     </style>
 </resources>

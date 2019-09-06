@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <TextView
+        android:id="@+id/collectionTextShow"
+        android:text="@string/myCollection"
+        android:textColor="@color/searchButton"
+        android:background="@color/header"
+        android:gravity="center"
+        android:textSize="@dimen/newsShowTitleSize"
+        android:layout_width="match_parent"
+        android:textStyle="bold"
+        android:layout_height="50.5dp" />
+
+    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/newsFragmentBG"
+        tools:context="com.java.zhangyiwei_chengjiawen.NewsFragment">
+        <!--News list-->
+        <com.scwang.smartrefresh.layout.SmartRefreshLayout
+            android:id="@+id/refreshLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <com.scwang.smartrefresh.header.BezierCircleHeader
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <ListView
+                android:id="@+id/newsList"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:clipToPadding="false"
+                android:divider="#00000000"
+                android:dividerHeight="6dp"
+                android:overScrollMode="always"
+                android:paddingTop="6dp" />
+        </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+    </FrameLayout>
+
+</LinearLayout>
