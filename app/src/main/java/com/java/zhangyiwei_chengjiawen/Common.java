@@ -18,18 +18,22 @@ class CollectedItem extends Object{
     String title;
     String subtitle;
     String time;
+    String content;
+    String imageURL;
 
     @Override
     public boolean equals(Object obj) {
         return (((CollectedItem)obj).newsID.equals(this.newsID));
     }
 
-    CollectedItem(String newsID, String info, String title, String subtitle, String time){
+    CollectedItem(String newsID, String info, String title, String subtitle, String time, String content, String imageURL){
         this.newsID = newsID;
         this.info = info;
         this.title = title;
         this.subtitle = subtitle;
         this.time = time;
+        this.content = content;
+        this.imageURL = imageURL;
     }
 }
 
@@ -43,6 +47,7 @@ class Common {
     static ArrayList<Integer> deleted = new ArrayList<>();
     //static LinkedHashMap<String, String> collected = new LinkedHashMap<>();
     static ArrayList<CollectedItem> collected = new ArrayList<>();
+    static CollectedItem nowNews;
 
     static String encodingToUrl(String size, String startDate, String endDate, String words, String categories, String page) {
         String[] args = new String[]{size, startDate, endDate, words, categories, page};

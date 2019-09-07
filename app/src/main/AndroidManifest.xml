@@ -29,6 +29,7 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".NewsShowActivity"
+            tools:replace="android:name"
             android:screenOrientation="portrait" />
     </application>
 

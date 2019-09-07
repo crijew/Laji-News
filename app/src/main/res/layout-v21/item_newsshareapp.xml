@@ -3,8 +3,6 @@
     android:id="@+id/newsShareItem"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
-    android:clickable="true"
-    android:focusable="true"
     android:background="?android:attr/selectableItemBackgroundBorderless"
     android:gravity="center"
     android:layout_width="wrap_content"
@@ -12,12 +10,14 @@
 
     <ImageView
         android:id="@+id/newsShareItemImage"
+        android:background="?android:attr/selectableItemBackgroundBorderless"
         android:layout_width="25dp"
         android:layout_height="25dp" />
     
     <TextView
         android:id="@+id/newsShareItemText"
         android:textColor="@color/mainText"
+        android:background="?android:attr/selectableItemBackgroundBorderless"
         android:layout_marginTop="5dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />

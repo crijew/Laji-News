@@ -39,8 +39,8 @@ dependencies {
 }
 
 MobSDK {
-    appKey "替换为mob官方申请的appkey"
-    appSecret "替换为mob官方申请的appkey对应的appSecret"
+    appKey "2c5819c89d3bc"
+    appSecret "6cc6052493a77cadf9576b56a0d77b45"
     ShareSDK {
         loopShare true
         devInfo {

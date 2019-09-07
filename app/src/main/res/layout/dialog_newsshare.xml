@@ -27,7 +27,11 @@
 
     </View>
 
+
+
     <Button
+        android:focusable="true"
+        android:clickable="true"
         android:id="@+id/newsShareExit"
         android:textSize="@dimen/textSize"
         android:gravity="center"

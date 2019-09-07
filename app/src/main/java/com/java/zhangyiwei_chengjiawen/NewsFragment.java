@@ -8,6 +8,7 @@ import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -178,6 +179,7 @@ public class NewsFragment extends Fragment {
         newsList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Log.d("shareOnItemClick", "inputIsOk");
                 NewsListAdapter.ViewHolder viewHolder = (NewsListAdapter.ViewHolder) view.getTag();
                 Intent intent = new Intent(getContext(), NewsShowActivity.class);
                 intent.putExtra("info", viewHolder.info);

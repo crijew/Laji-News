@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,6 +23,7 @@ import com.daimajia.slider.library.SliderLayout;
 import com.daimajia.slider.library.SliderTypes.BaseSliderView;
 import com.daimajia.slider.library.SliderTypes.TextSliderView;
 import com.daimajia.slider.library.Tricks.ViewPagerEx;
+import com.mob.MobSDK;
 
 import org.json.JSONObject;
 
@@ -31,7 +33,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 
-public class NewsShowActivity extends AppCompatActivity {
+public class NewsShowActivity extends AppCompatActivity implements View.OnClickListener {
 
     Pattern pattern = Pattern.compile("[\\[ ](.*?)[,\\]]");
     boolean clickCollect = false;
@@ -47,11 +49,13 @@ public class NewsShowActivity extends AppCompatActivity {
 
         //子控件
         final ImageView newsBannerCollect = (ImageView) findViewById(R.id.newsBannerCollect);
+        final LinearLayout newsShowMain = findViewById(R.id.newsShowMain);
 
+        //分享初始化
+        MobSDK.init(NewsShowActivity.this);
 
-
-        boolean dark = false;
         //夜间模式topBar字体颜色
+        boolean dark = false;
         View decor = getWindow().getDecorView();
         if (dark) {
             decor.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
@@ -80,8 +84,6 @@ public class NewsShowActivity extends AppCompatActivity {
         String category;
         String image;
         List<String> imageList = new ArrayList<>();
-
-        final LinearLayout newsShowMain = findViewById(R.id.newsShowMain);
         ScrollView view = (ScrollView) LayoutInflater.from(this).inflate(R.layout.newsshow_content, null);
         newsShowMain.addView(view, -1);
         try {
@@ -102,10 +104,11 @@ public class NewsShowActivity extends AppCompatActivity {
             ((TextView) view.findViewById(R.id.newsShowContentTime)).setText(publishTime);
             ((TextView) view.findViewById(R.id.newsShowContentPublisher)).setText(publisher);
             ((TextView) view.findViewById(R.id.newsShowContentContent)).setText(content);
-            thisItem = new CollectedItem(newsID, info, title, publisher, publishTime);
+            thisItem = new CollectedItem(newsID, info, title, publisher, publishTime, content, imageList.get(0));
             if (Common.collected.contains(thisItem)){
                 clickCollect = true;
             }
+            Common.nowNews = thisItem;
         } catch (Exception e) {
         }
 
@@ -151,20 +154,7 @@ public class NewsShowActivity extends AppCompatActivity {
         });
 
 
-
         //图片显示
-        //        for(String name : urlMaps.keySet()){
-//            TextSliderView textSliderView = new TextSliderView(this);
-//            textSliderView
-//                    .description(name)//描述
-//                    .image(urlMaps.get(name))//image方法可以传入图片url、资源id、File
-//                    .setScaleType(BaseSliderView.ScaleType.Fit)//图片缩放类型
-//                    .setOnSliderClickListener(onSliderClickListener);//图片点击
-//            textSliderView.bundle(new Bundle());
-//            textSliderView.getBundle().putString("extra",name);//传入参数
-//            mDemoSlider.addSlider(textSliderView);//添加一个滑动页面
-//
-//        }
         if (imageList.size() == 0 || imageList.get(0).equals("")) {
             SliderLayout mDemoSlider = (SliderLayout) findViewById(R.id.newsShowContentSlider);
             mDemoSlider.setVisibility(View.GONE);
@@ -225,4 +215,10 @@ public class NewsShowActivity extends AppCompatActivity {
         }
     };
 
+//TODO
+// 记得调试完bug后将此删除
+    @Override
+    public void onClick(View view) {
+        Log.d("LookAtClick", "This is "+view.getId());
+    }
 }
