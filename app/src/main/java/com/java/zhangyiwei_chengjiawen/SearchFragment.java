@@ -17,14 +17,25 @@ import android.widget.Toast;
 
 class HistoryListAdapter extends BaseAdapter {
     private Context context;
+    private View historyTitle;
 
     private class ViewHolder {
         private TextView historyText;
         private TextView deleteHistory;
     }
 
-    HistoryListAdapter(Context context) {
+    @Override
+    public void notifyDataSetChanged() {
+        super.notifyDataSetChanged();
+        if (getCount() == 0)
+            historyTitle.setVisibility(View.GONE);
+        else
+            historyTitle.setVisibility(View.VISIBLE);
+    }
+
+    HistoryListAdapter(Context context, View historyTitle) {
         this.context = context;
+        this.historyTitle = historyTitle;
     }
 
     @Override
@@ -43,7 +54,7 @@ class HistoryListAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
         ViewHolder viewHolder;
         final String data = (String) getItem(position);
         if (convertView == null) {
@@ -58,7 +69,9 @@ class HistoryListAdapter extends BaseAdapter {
         viewHolder.deleteHistory.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(context, data, Toast.LENGTH_SHORT).show();
+                Common.history.remove(getCount() - 1 - position);
+                Common.saveData(context);
+                notifyDataSetChanged();
             }
         });
         return convertView;
@@ -76,15 +89,13 @@ public class SearchFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.search_fragment, container, false);
 
-        adapter = new HistoryListAdapter(getContext());
-
         historyTitle = rootView.findViewById(R.id.history_title);
-        if (adapter.getCount() == 0)
-            historyTitle.setVisibility(View.GONE);
+        adapter = new HistoryListAdapter(getContext(), historyTitle);
         rootView.findViewById(R.id.clearHistory).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Common.history.clear();
+                adapter.notifyDataSetChanged();
                 Common.saveData(getContext());
                 historyTitle.setVisibility(View.GONE);
             }
@@ -105,12 +116,8 @@ public class SearchFragment extends Fragment {
 
     @Override
     public void onHiddenChanged(boolean hidden) {
-        if (!hidden) {
+        super.onHiddenChanged(hidden);
+        if(!hidden)
             adapter.notifyDataSetChanged();
-            if (adapter.getCount() == 0)
-                historyTitle.setVisibility(View.GONE);
-            else
-                historyTitle.setVisibility(View.VISIBLE);
-        }
     }
 }

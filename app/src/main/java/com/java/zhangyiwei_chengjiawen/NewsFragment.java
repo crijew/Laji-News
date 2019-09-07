@@ -17,6 +17,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
@@ -32,7 +33,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
@@ -99,8 +99,7 @@ class NewsListAdapter extends BaseAdapter {
             viewHolder.itemImage.getLayoutParams().height = MainActivity.dpToPx(context, 67.5f);
             Glide.with(context)
                     .load(image)
-                    //.placeholder(R.drawable.blank)
-                    .override(MainActivity.dpToPx(context, 120), MainActivity.dpToPx(context, 67.5f))
+                    .override(MainActivity.dpToPx(context, 120), MainActivity.dpToPx(context, 80))
                     .centerCrop()
                     .transition(new DrawableTransitionOptions().crossFade(300))
                     .into(viewHolder.itemImage);
@@ -119,12 +118,17 @@ class NewsListAdapter extends BaseAdapter {
 }
 
 public class NewsFragment extends Fragment {
+    private View rootView;
     private static final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.CHINA);
     private final Pattern pattern = Pattern.compile("^\\[(.*?)[,\\]]");
     private ListView newsList = null;
     private NewsListAdapter adapter = null;
     private int pageNum = 0;
     ArrayList<HashMap<String, String>> itemList = new ArrayList<>();
+
+    SmartRefreshLayout refreshLayout;
+    View networkError;
+    View resultError;
 
     private Handler handler = new Handler(new Handler.Callback() {
         @Override
@@ -134,12 +138,26 @@ public class NewsFragment extends Fragment {
                 adapter = new NewsListAdapter(getContext(), itemList);
                 newsList.setAdapter(adapter);
             }
-            if (msg.what == 0 || msg.what == 1) {
+            if (msg.what == 0b11 || msg.what == 0b01) {
+                if (msg.what == 0b11)
+                    itemList.clear();
                 try {
-                    if (msg.what == 0) itemList.clear();
                     String result = (String) msg.obj;
                     JSONObject object = new JSONObject(result);
                     JSONArray allData = object.getJSONArray("data");
+                    if (allData.length() == 0)
+                        if (msg.what == 0b11) {
+                            resultError.setVisibility(View.VISIBLE);
+                            networkError.setVisibility(View.GONE);
+                            refreshLayout.setVisibility(View.GONE);
+                        } else {
+                            Toast.makeText(getContext(), "没有更多了...", Toast.LENGTH_SHORT).show();
+                        }
+                    else {
+                        resultError.setVisibility(View.GONE);
+                        networkError.setVisibility(View.GONE);
+                        refreshLayout.setVisibility(View.VISIBLE);
+                    }
                     for (int i = 0; i < allData.length(); ++i) {
                         JSONObject data = allData.getJSONObject(i);
                         HashMap<String, String> map = new HashMap<>();
@@ -152,19 +170,14 @@ public class NewsFragment extends Fragment {
                         map.put("info", allData.getString(i));
                         itemList.add(map);
                     }
+                    adapter.notifyDataSetChanged();
                 } catch (JSONException e) {
                 }
-            } else {
-                itemList.clear();
-                HashMap<String, String> map = new HashMap<>();
-                map.put("itemImage", "");
-                map.put("itemTitle", "Getting news item failed");
-                map.put("itemSubtitle", (String) msg.obj);
-                map.put("itemTime", "");
-                map.put("info", "");
-                itemList.add(map);
-            }
-            adapter.notifyDataSetChanged();
+            } else if (msg.what == 0b10 && itemList.size() == 0) {
+                resultError.setVisibility(View.GONE);
+                networkError.setVisibility(View.VISIBLE);
+                refreshLayout.setVisibility(View.GONE);
+            } else Toast.makeText(getContext(), "网络有点问题...", Toast.LENGTH_SHORT).show();
             return false;
         }
     });
@@ -172,10 +185,9 @@ public class NewsFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.news_fragment, container, false);
+        rootView = inflater.inflate(R.layout.news_fragment, container, false);
         sdf.setTimeZone(TimeZone.getTimeZone("GMT+8"));
         newsList = rootView.findViewById(R.id.newsList);
-//        newsList.setDescendantFocusability(ListView.FOCUS_BLOCK_DESCENDANTS);
         newsList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -188,8 +200,11 @@ public class NewsFragment extends Fragment {
         });
         getNews(true);
 
+        networkError = rootView.findViewById(R.id.netWorkError);
+        resultError = rootView.findViewById(R.id.resultError);
+
         //Refresh
-        SmartRefreshLayout refreshLayout = rootView.findViewById(R.id.refreshLayout);
+        refreshLayout = rootView.findViewById(R.id.refreshLayout);
         refreshLayout.setPrimaryColorsId(R.color.newsFragmentBG, R.color.waterDrop);
         refreshLayout.setOnRefreshLoadMoreListener(new OnRefreshLoadMoreListener() {
             @Override
@@ -204,6 +219,13 @@ public class NewsFragment extends Fragment {
                 refreshLayout.finishRefresh();
             }
         });
+
+        rootView.findViewById(R.id.refresh).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                refreshLayout.autoRefresh();
+            }
+        });
         return rootView;
     }
 
@@ -211,6 +233,8 @@ public class NewsFragment extends Fragment {
     public void onHiddenChanged(boolean hidden) {
         if (hidden) {
             itemList.clear();
+            networkError.setVisibility(View.GONE);
+            resultError.setVisibility(View.GONE);
             adapter.notifyDataSetChanged();
             return;
         }
@@ -239,22 +263,16 @@ public class NewsFragment extends Fragment {
                     if (connection.getResponseCode() == HttpURLConnection.HTTP_OK) {
                         br = new BufferedReader(new InputStreamReader(connection.getInputStream(), StandardCharsets.UTF_8));
                         String result = br.readLine();
-                        if (refresh)
-                            handler.sendMessage(handler.obtainMessage(0, result));
-                        else
-                            handler.sendMessage(handler.obtainMessage(1, result));
+                        handler.sendMessage(handler.obtainMessage(refresh ? 0b11 : 0b01, result));
                     } else
-                        handler.sendMessage(handler.obtainMessage(2, "Status code: " + connection.getResponseCode()));
-                } catch (MalformedURLException e) {
-                    handler.sendMessage(handler.obtainMessage(3, "MalformedURLException"));
-                } catch (IOException e) {
-                    handler.sendMessage(handler.obtainMessage(4, "IOException"));
+                        handler.sendMessage(handler.obtainMessage(refresh ? 0b10 : 0b00, "Status code: " + connection.getResponseCode()));
+                } catch (Exception e) {
+                    handler.sendMessage(handler.obtainMessage(refresh ? 0b10 : 0b00, "MalformedURLException"));
                 } finally {
                     if (br != null)
                         try {
                             br.close();
                         } catch (IOException e) {
-                            handler.sendMessage(handler.obtainMessage(4, "IOException"));
                         }
                     connection.disconnect();
                 }

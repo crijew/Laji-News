@@ -33,7 +33,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 
-public class NewsShowActivity extends AppCompatActivity implements View.OnClickListener {
+public class NewsShowActivity extends AppCompatActivity {
 
     Pattern pattern = Pattern.compile("[\\[ ](.*?)[,\\]]");
     boolean clickCollect = false;
@@ -48,19 +48,18 @@ public class NewsShowActivity extends AppCompatActivity implements View.OnClickL
         setContentView(R.layout.newsshow_main);
 
         //子控件
-        final ImageView newsBannerCollect = (ImageView) findViewById(R.id.newsBannerCollect);
+        final ImageView newsBannerCollect = findViewById(R.id.newsBannerCollect);
         final LinearLayout newsShowMain = findViewById(R.id.newsShowMain);
 
         //分享初始化
         MobSDK.init(NewsShowActivity.this);
 
         //夜间模式topBar字体颜色
-        boolean dark = false;
         View decor = getWindow().getDecorView();
-        if (dark) {
-            decor.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+        if (!Common.nightMode) {
+            decor.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
         } else {
-            decor.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
+            decor.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
         }
 
         //Translucent status bar
@@ -142,7 +141,7 @@ public class NewsShowActivity extends AppCompatActivity implements View.OnClickL
             public void onClick(View view) {
                 if (!clickCollect){
                     newsBannerCollect.setImageResource(R.mipmap.collected);
-                    Common.collected.add(thisItem);
+                    Common.collected.add(0, thisItem);
                 } else {
                     newsBannerCollect.setImageResource(R.mipmap.collect);
                     Common.collected.remove(thisItem);
@@ -193,9 +192,7 @@ public class NewsShowActivity extends AppCompatActivity implements View.OnClickL
 
     @Override
     public void finish() {
-        if (changed){
-            setResult(RESULT_OK);
-        }
+        Common.changed = changed;
         super.finish();
     }
 
@@ -215,10 +212,4 @@ public class NewsShowActivity extends AppCompatActivity implements View.OnClickL
         }
     };
 
-//TODO
-// 记得调试完bug后将此删除
-    @Override
-    public void onClick(View view) {
-        Log.d("LookAtClick", "This is "+view.getId());
-    }
 }

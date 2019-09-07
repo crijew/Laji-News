@@ -3,24 +3,29 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingStart="@dimen/paddingLR"
-    android:paddingTop="10dp"
-    android:paddingEnd="@dimen/paddingLR"
-    android:paddingBottom="10dp">
+    android:paddingEnd="0dp">
 
     <TextView
         android:id="@+id/historyText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
         android:layout_alignParentStart="true"
         android:layout_toStartOf="@id/deleteHistory"
+        android:singleLine="true"
         android:textSize="@dimen/historyTextSize" />
 
     <TextView
         android:id="@+id/deleteHistory"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
         android:layout_alignParentEnd="true"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:paddingStart="@dimen/paddingLR"
+        android:paddingEnd="@dimen/paddingLR"
         android:text="@string/delete"
         android:textStyle="bold"
-        android:textSize="@dimen/historyTextSize" />
+        android:textSize="@dimen/deleteHistorySize" />
 </RelativeLayout>

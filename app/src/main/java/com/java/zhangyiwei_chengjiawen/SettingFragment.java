@@ -24,6 +24,7 @@ public class SettingFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Common.nightMode = !Common.nightMode;
+                getActivity().getWindow().setWindowAnimations(R.style.WindowAnimationFadeInOut);
                 if (Common.nightMode) {
                     ((AppCompatActivity)getActivity()).getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_YES);
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);

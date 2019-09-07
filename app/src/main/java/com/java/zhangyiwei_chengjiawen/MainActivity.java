@@ -2,9 +2,7 @@ package com.java.zhangyiwei_chengjiawen;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -12,24 +10,23 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.AppCompatDelegate;
-import android.util.Log;
+import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
-    TabLayout mainTab;
-    ViewPager mainViewPager;
-    ArrayList<String> titles = new ArrayList<>();
-    ArrayList<Fragment> fragments = new ArrayList<>();
-    Fragment currentFragment = null;
+    private TabLayout mainTab;
+    private ViewPager mainViewPager;
+    private ArrayList<String> titles = new ArrayList<>();
+    private ArrayList<Fragment> fragments = new ArrayList<>();
+    private final int[] activate = new int[]{R.mipmap.collection_activate, R.mipmap.news_activate, R.mipmap.setting_activate};
+    private final int[] noactivate = new int[]{R.mipmap.collection_noactivate, R.mipmap.news_noactivate, R.mipmap.setting_noactivate};
 
     public static int dpToPx(Context context, float dp) {
         if (context == null) {
@@ -43,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
         int resourceId = getResources().getIdentifier("status_bar_height", "dimen", "android");
         if (resourceId > 0)
             return getResources().getDimensionPixelSize(resourceId);
-        else return 25;
+        return 25;
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -81,6 +78,23 @@ public class MainActivity extends AppCompatActivity {
         fragments.add(new CollectionFragment());
         fragments.add(new MainFragment());
         fragments.add(new SettingFragment());
+        mainTab.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                ((ImageView)tab.getCustomView().findViewById(R.id.icon)).setImageResource(activate[tab.getPosition()]);
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+                ((ImageView)tab.getCustomView().findViewById(R.id.icon)).setImageResource(noactivate[tab.getPosition()]);
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
+        mainViewPager.setOffscreenPageLimit(3);
         mainViewPager.setAdapter(new FragmentPagerAdapter(getSupportFragmentManager()) {
             @Override
             public Fragment getItem(int i) {
@@ -97,24 +111,15 @@ public class MainActivity extends AppCompatActivity {
             public CharSequence getPageTitle(int position) {
                 return titles.get(position);
             }
-
-            @Override
-            public void setPrimaryItem(@NonNull ViewGroup container, int position, @NonNull Object object) {
-                currentFragment = (Fragment) object;
-                super.setPrimaryItem(container, position, object);
-            }
         });
-        mainTab.setupWithViewPager(mainViewPager);
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == RESULT_OK){
-            Log.d("checkCollect", "oooook");
-            ((CollectionFragment)fragments.get(0)).getAdapter().notifyDataSetChanged();
+        mainViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(mainTab));
+        mainTab.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(mainViewPager));
+        for (int i = 0; i < activate.length; ++i) {
+            View view = getLayoutInflater().inflate(R.layout.tab_item, null);
+            ((ImageView) view.findViewById(R.id.icon)).setImageResource(noactivate[i]);
+            ((TextView) view.findViewById(R.id.title)).setText(titles.get(i));
+            mainTab.addTab(mainTab.newTab().setCustomView(view));
         }
-        Log.d("checkCollect", "fuck");
+        mainTab.getTabAt(1).select();
     }
-
 }

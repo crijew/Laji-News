@@ -104,19 +104,19 @@ abstract class BaseAdapter
 }
 
 class AddedAdapter extends BaseAdapter {
-    public AddedAdapter(Context context) {
+    AddedAdapter(Context context) {
         super(context);
     }
 
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder viewHolder, int i) {
-        viewHolder.categoryText.setText(Common.category[Common.added.get(i + 1)]);
+        viewHolder.categoryText.setText(Common.category[Common.added.get(i)]);
         viewHolder.categoryText.setTextColor(ContextCompat.getColor(context, R.color.categoryAdded));
         viewHolder.categoryText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 int position = viewHolder.getAdapterPosition();
-                int deleted = Common.added.remove(position + 1);
+                int deleted = Common.added.remove(position);
                 Common.deleted.add(0, deleted);
                 notifyItemRemoved(position);
                 oppose.notifyItemInserted(0);
@@ -126,23 +126,23 @@ class AddedAdapter extends BaseAdapter {
 
     @Override
     public void onMoveItem(int fromPosition, int toPosition) {
-        int item = Common.added.remove(fromPosition + 1);
-        Common.added.add(toPosition + 1, item);
+        int item = Common.added.remove(fromPosition);
+        Common.added.add(toPosition, item);
     }
 
     @Override
     public int getItemCount() {
-        return Common.added.size() - 1;
+        return Common.added.size();
     }
 
     @Override
     public long getItemId(int position) {
-        return Common.added.get(position + 1);
+        return Common.added.get(position);
     }
 }
 
 class DeletedAdapter extends BaseAdapter {
-    public DeletedAdapter(Context context) {
+    DeletedAdapter(Context context) {
         super(context);
     }
 
@@ -155,7 +155,7 @@ class DeletedAdapter extends BaseAdapter {
             public void onClick(View v) {
                 int position = viewHolder.getAdapterPosition();
                 int added = Common.deleted.remove(position);
-                Common.added.add(1, added);
+                Common.added.add(0, added);
                 notifyItemRemoved(position);
                 oppose.notifyItemInserted(0);
             }
@@ -343,7 +343,6 @@ public class MainFragment extends Fragment {
 
             }
         });
-        newsViewPager.setCurrentItem(Common.currentItem);
         newsViewPager.setAdapter(new ViewPagerAdapter(getFragmentManager()));
         return rootView;
     }
