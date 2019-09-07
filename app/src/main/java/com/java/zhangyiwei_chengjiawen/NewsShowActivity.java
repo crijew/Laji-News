@@ -203,9 +203,7 @@ public class NewsShowActivity extends AppCompatActivity {
 
     @Override
     public void finish() {
-        if (changed){
-            setResult(RESULT_OK);
-        }
+        Common.changed = changed;
         super.finish();
     }
 

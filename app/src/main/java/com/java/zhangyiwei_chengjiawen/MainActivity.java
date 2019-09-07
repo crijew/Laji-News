@@ -12,7 +12,9 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.AppCompatDelegate;
+import android.util.AttributeSet;
 import android.util.Log;
+import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
@@ -104,17 +106,7 @@ public class MainActivity extends AppCompatActivity {
                 super.setPrimaryItem(container, position, object);
             }
         });
+        mainViewPager.setCurrentItem(1);
         mainTab.setupWithViewPager(mainViewPager);
     }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == RESULT_OK){
-            Log.d("checkCollect", "oooook");
-            ((CollectionFragment)fragments.get(0)).getAdapter().notifyDataSetChanged();
-        }
-        Log.d("checkCollect", "fuck");
-    }
-
 }

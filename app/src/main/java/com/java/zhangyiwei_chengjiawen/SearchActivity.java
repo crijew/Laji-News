@@ -8,10 +8,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
-<<<<<<< HEAD
-=======
-import android.view.MotionEvent;
->>>>>>> 20b88b676106e34fd21b2789c9af144cae4d7eba
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -22,15 +18,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-<<<<<<< HEAD
 public class SearchActivity extends AppCompatActivity {
-=======
-import java.io.FileOutputStream;
-import java.io.ObjectOutputStream;
-
-public class SearchActivity extends AppCompatActivity {
-    private int current = SEARCH;
->>>>>>> 20b88b676106e34fd21b2789c9af144cae4d7eba
     public static final int SEARCH = 1;
     public static final int RESULT = 2;
 
@@ -60,10 +48,6 @@ public class SearchActivity extends AppCompatActivity {
     }
 
     public void setFragment(int type, String word) {
-<<<<<<< HEAD
-=======
-        current = type;
->>>>>>> 20b88b676106e34fd21b2789c9af144cae4d7eba
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
         if (searchFragment != null) ft.hide(searchFragment);
@@ -143,13 +127,8 @@ public class SearchActivity extends AppCompatActivity {
                 Common.history.remove(text);
                 if (Common.history.size() < 10)
                     Common.history.add(text);
-<<<<<<< HEAD
                 setFragment(RESULT, text);
                 Common.saveData(SearchActivity.this);
-=======
-                Common.saveData(SearchActivity.this);
-                setFragment(RESULT, text);
->>>>>>> 20b88b676106e34fd21b2789c9af144cae4d7eba
             }
         });
 
