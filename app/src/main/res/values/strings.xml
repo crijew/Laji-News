@@ -12,4 +12,5 @@
     <string name="resultError">没有结果X﹏X</string>
     <string name="giveUp">取消</string>
     <string name="myCollection">我的收藏</string>
+    <string name="recommend">新闻推荐</string>
 </resources>
