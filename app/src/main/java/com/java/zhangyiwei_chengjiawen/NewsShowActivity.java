@@ -22,6 +22,7 @@ import com.daimajia.slider.library.SliderLayout;
 import com.daimajia.slider.library.SliderTypes.BaseSliderView;
 import com.daimajia.slider.library.SliderTypes.TextSliderView;
 import com.daimajia.slider.library.Tricks.ViewPagerEx;
+import com.mob.MobSDK;
 
 import org.json.JSONObject;
 
@@ -47,6 +48,10 @@ public class NewsShowActivity extends AppCompatActivity {
 
         //子控件
         final ImageView newsBannerCollect = findViewById(R.id.newsBannerCollect);
+        final LinearLayout newsShowMain = findViewById(R.id.newsShowMain);
+
+        //分享初始化
+        MobSDK.init(NewsShowActivity.this);
 
         //夜间模式topBar字体颜色
         View decor = getWindow().getDecorView();
@@ -77,8 +82,6 @@ public class NewsShowActivity extends AppCompatActivity {
         String category;
         String image;
         List<String> imageList = new ArrayList<>();
-
-        final LinearLayout newsShowMain = findViewById(R.id.newsShowMain);
         ScrollView view = (ScrollView) LayoutInflater.from(this).inflate(R.layout.newsshow_content, null);
         newsShowMain.addView(view, -1);
         try {
@@ -99,10 +102,11 @@ public class NewsShowActivity extends AppCompatActivity {
             ((TextView) view.findViewById(R.id.newsShowContentTime)).setText(publishTime);
             ((TextView) view.findViewById(R.id.newsShowContentPublisher)).setText(publisher);
             ((TextView) view.findViewById(R.id.newsShowContentContent)).setText(content);
-            thisItem = new CollectedItem(newsID, info, title, publisher, publishTime);
-            if (Common.collected.contains(thisItem)){
+            thisItem = new CollectedItem(newsID, info, title, publisher, publishTime, content, imageList.get(0));
+            if (Common.collected.contains(thisItem)) {
                 clickCollect = true;
             }
+            Common.nowNews = thisItem;
         } catch (Exception e) {
         }
 
@@ -125,7 +129,7 @@ public class NewsShowActivity extends AppCompatActivity {
 
 
         //收藏部分
-        if (clickCollect){
+        if (clickCollect) {
             newsBannerCollect.setImageResource(R.mipmap.collected);
         } else {
             newsBannerCollect.setImageResource(R.mipmap.collect);
@@ -134,7 +138,7 @@ public class NewsShowActivity extends AppCompatActivity {
             @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onClick(View view) {
-                if (!clickCollect){
+                if (!clickCollect) {
                     newsBannerCollect.setImageResource(R.mipmap.collected);
                     Common.collected.add(0, thisItem);
                 } else {
@@ -148,20 +152,7 @@ public class NewsShowActivity extends AppCompatActivity {
         });
 
 
-
         //图片显示
-        //        for(String name : urlMaps.keySet()){
-//            TextSliderView textSliderView = new TextSliderView(this);
-//            textSliderView
-//                    .description(name)//描述
-//                    .image(urlMaps.get(name))//image方法可以传入图片url、资源id、File
-//                    .setScaleType(BaseSliderView.ScaleType.Fit)//图片缩放类型
-//                    .setOnSliderClickListener(onSliderClickListener);//图片点击
-//            textSliderView.bundle(new Bundle());
-//            textSliderView.getBundle().putString("extra",name);//传入参数
-//            mDemoSlider.addSlider(textSliderView);//添加一个滑动页面
-//
-//        }
         if (imageList.size() == 0 || imageList.get(0).equals("")) {
             SliderLayout mDemoSlider = (SliderLayout) findViewById(R.id.newsShowContentSlider);
             mDemoSlider.setVisibility(View.GONE);

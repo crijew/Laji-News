@@ -81,12 +81,12 @@ public class MainActivity extends AppCompatActivity {
         mainTab.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                ((ImageView)tab.getCustomView().findViewById(R.id.icon)).setImageResource(activate[tab.getPosition()]);
+                ((ImageView) tab.getCustomView().findViewById(R.id.icon)).setImageResource(activate[tab.getPosition()]);
             }
 
             @Override
             public void onTabUnselected(TabLayout.Tab tab) {
-                ((ImageView)tab.getCustomView().findViewById(R.id.icon)).setImageResource(noactivate[tab.getPosition()]);
+                ((ImageView) tab.getCustomView().findViewById(R.id.icon)).setImageResource(noactivate[tab.getPosition()]);
             }
 
             @Override

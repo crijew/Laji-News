@@ -1,24 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/newsShowMain"
-    android:focusable="true"
-    android:focusableInTouchMode="true"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/commonBG"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
     android:orientation="vertical">
 
     <!--Status bar-->
     <LinearLayout
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        android:orientation="horizontal"
-        android:background="@color/commonBG"
         android:id="@+id/statusBarNews"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="@color/commonBG"
+        android:orientation="horizontal"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
     </LinearLayout>
 
@@ -26,64 +26,63 @@
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/newsBanner"
-        android:padding="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:background="@color/commonBG"
-        app:layout_constraintTop_toBottomOf="@id/statusBarNews"
+        android:padding="10dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        app:layout_constraintTop_toBottomOf="@id/statusBarNews">
 
         <ImageView
-            android:clickable="true"
-            android:focusable="true"
-            android:background="?android:attr/selectableItemBackgroundBorderless"
             android:id="@+id/newsBannerIcon"
-            android:src="@mipmap/back"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
             android:layout_width="@dimen/newsShowMainImageSize"
             android:layout_height="@dimen/newsShowMainImageSize"
-            android:layout_gravity="center_vertical"/>
+            android:layout_gravity="center_vertical"
+            android:background="?android:attr/selectableItemBackgroundBorderless"
+            android:clickable="true"
+            android:focusable="true"
+            android:src="@mipmap/back"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
             android:id="@+id/newsBannerText"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/newsShowMainImageSize"
+            android:scaleType="fitCenter"
             android:src="@drawable/app_name"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:scaleType="fitCenter"
-            android:layout_width="wrap_content"
-            android:layout_height="@dimen/newsShowMainImageSize" />
+            app:layout_constraintTop_toTopOf="parent" />
 
 
         <ImageView
-            android:clickable="true"
-            android:focusable="true"
             android:id="@+id/newsBannerCollect"
-            app:layout_constraintRight_toLeftOf="@+id/newsBannerMore"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_marginEnd="20dp"
             android:layout_width="25dp"
-            android:layout_height="25dp" />
-
-        <ImageView
+            android:layout_height="25dp"
+            android:layout_marginEnd="20dp"
             android:clickable="true"
             android:focusable="true"
-            android:background="?android:attr/selectableItemBackgroundBorderless"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toLeftOf="@+id/newsBannerMore"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
             android:id="@+id/newsBannerMore"
+            android:layout_width="@dimen/newsShowMainImageSize"
+            android:layout_height="@dimen/newsShowMainImageSize"
+            android:background="?android:attr/selectableItemBackgroundBorderless"
+            android:clickable="true"
+            android:focusable="true"
             android:src="@mipmap/more"
-            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            android:layout_width="@dimen/newsShowMainImageSize"
-            android:layout_height="@dimen/newsShowMainImageSize" />
+            app:layout_constraintTop_toTopOf="parent" />
 
     </android.support.constraint.ConstraintLayout>
-
 
 
 </LinearLayout>

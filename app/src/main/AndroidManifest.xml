@@ -17,7 +17,7 @@
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
         <activity
-            android:name="com.java.zhangyiwei_chengjiawen.MainActivity"
+            android:name=".StartActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -25,11 +25,15 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".MainActivity"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".SearchActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".NewsShowActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            tools:replace="android:name" />
     </application>
 
 </manifest>

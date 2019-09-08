@@ -13,7 +13,6 @@ import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 class HistoryListAdapter extends BaseAdapter {
     private Context context;
@@ -117,7 +116,7 @@ public class SearchFragment extends Fragment {
     @Override
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
-        if(!hidden)
+        if (!hidden)
             adapter.notifyDataSetChanged();
     }
 }
