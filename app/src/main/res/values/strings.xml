@@ -11,6 +11,8 @@
     <string name="refresh"><u>刷新</u></string>
     <string name="resultError">没有结果X﹏X</string>
     <string name="giveUp">取消</string>
+    <string name="mySetting">我的设置</string>
     <string name="myCollection">我的收藏</string>
     <string name="recommend">新闻推荐</string>
+    <string name="nightMode">夜间模式</string>
 </resources>

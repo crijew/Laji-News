@@ -1,23 +1,14 @@
 package com.java.zhangyiwei_chengjiawen;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
 import android.app.Activity;
-import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Canvas;
-import android.graphics.ColorFilter;
 import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
-import android.net.Uri;
-import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -25,9 +16,7 @@ import android.widget.GridView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.SimpleAdapter;
-import android.widget.Switch;
 
-import java.net.URI;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -37,12 +26,9 @@ import cn.sharesdk.framework.Platform;
 import cn.sharesdk.framework.PlatformActionListener;
 import cn.sharesdk.framework.ShareSDK;
 import cn.sharesdk.tencent.qq.QQ;
-import cn.sharesdk.onekeyshare.OnekeyShare;
-
-import static com.mob.tools.utils.Strings.getString;
 
 
-public class NewsShareDialog extends PopupWindow {
+class NewsShareDialog extends PopupWindow {
     private Context context;
     private int[] icon = {R.mipmap.fenxiang, R.mipmap.qq, R.mipmap.wechat, R.mipmap.weibo};
     private String[] iconName = {"分享", "QQ", "微信", "微博"};
@@ -51,19 +37,18 @@ public class NewsShareDialog extends PopupWindow {
     private SimpleAdapter simpleAdapter;
     private Button button;
     private LinearLayout view;
-    PlatformActionListener platformActionListener=new PlatformActionListener() {
+    private PlatformActionListener platformActionListener = new PlatformActionListener() {
         @Override
         public void onComplete(Platform platform, int i, HashMap<String, Object> hashMap) {
-            Log.e("kid","分享成功");
         }
+
         @Override
         public void onError(Platform platform, int i, Throwable throwable) {
-            Log.e("kid","分享失败");
+
         }
 
         @Override
         public void onCancel(Platform platform, int i) {
-            Log.e("kid","分享取消");
         }
     };
 
@@ -75,9 +60,6 @@ public class NewsShareDialog extends PopupWindow {
             @Override
             public void onClick(View view) {
                 dismiss();
-                //dismiss();
-                //showShare();
-//                Log.d("aaaa", "Exit:" + isShowing() + "!!!!!");
             }
         });
     }
@@ -101,11 +83,11 @@ public class NewsShareDialog extends PopupWindow {
 //                textIntent.setType("text/plain");
 //                textIntent.putExtra(Intent.EXTRA_TEXT, "这是一段分享的文字");
 //                context.startActivity(Intent.createChooser(textIntent, "分享"));
-                switch (i){
+                switch (i) {
                     case 0:
                         Intent shareIntent = new Intent(Intent.ACTION_SEND);
                         shareIntent.setType("text/plain");
-                        shareIntent.putExtra(Intent.EXTRA_TEXT, Common.nowNews.title+" "+Common.nowNews.imageURL+" "+Common.nowNews.content);
+                        shareIntent.putExtra(Intent.EXTRA_TEXT, Common.nowNews.title + " " + Common.nowNews.imageURL + " " + Common.nowNews.content);
                         context.startActivity(Intent.createChooser(shareIntent, "分享"));
                         break;
                     case 1:
@@ -152,11 +134,9 @@ public class NewsShareDialog extends PopupWindow {
     }
 
     public void showAtBottom(View view) {
-//        showAsDropDown(view, Math.abs((view.getWidth()-getWidth())/2), 10);\
         setAnimationStyle(R.style.PopupWindowEnter);
         this.update();
         this.showAtLocation(view, Gravity.BOTTOM, 0, 0);
-//        Log.d("bbbb", "in:" + isShowing() + "!!!!!");
     }
 
     public List<Map<String, Object>> getData_list() {
@@ -169,6 +149,7 @@ public class NewsShareDialog extends PopupWindow {
 
         return data_list;
     }
+
     //test
     private void showShare() {
 //        OnekeyShare oks = new OnekeyShare();
@@ -196,17 +177,9 @@ public class NewsShareDialog extends PopupWindow {
         sp.setSite("发布分享的网站名称");
         sp.setSiteUrl("发布分享网站的地址");
 
-        Platform qq = ShareSDK.getPlatform (QQ.NAME);
+        Platform qq = ShareSDK.getPlatform(QQ.NAME);
         qq.share(sp);
     }
-
-
-
-
-
-
-
-
 
 
 //    //这些实现了动画退出...但是有点问题...

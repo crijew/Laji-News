@@ -8,7 +8,6 @@ import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -131,7 +130,7 @@ public class NewsShowActivity extends AppCompatActivity {
             ((TextView) view.findViewById(R.id.newsShowContentPublisher)).setText(publisher);
             ((TextView) view.findViewById(R.id.newsShowContentContent)).setText(content);
             thisItem = new CollectedItem(newsID, info, title, publisher, publishTime, content, imageList.get(0));
-            if (Common.collected.contains(thisItem)){
+            if (Common.collected.contains(thisItem)) {
                 clickCollect = true;
             }
             Common.nowNews = thisItem;
@@ -157,7 +156,7 @@ public class NewsShowActivity extends AppCompatActivity {
 
 
         //收藏部分
-        if (clickCollect){
+        if (clickCollect) {
             newsBannerCollect.setImageResource(R.mipmap.collected);
         } else {
             newsBannerCollect.setImageResource(R.mipmap.collect);
@@ -166,7 +165,7 @@ public class NewsShowActivity extends AppCompatActivity {
             @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onClick(View view) {
-                if (!clickCollect){
+                if (!clickCollect) {
                     newsBannerCollect.setImageResource(R.mipmap.collected);
                     Common.collected.add(0, thisItem);
                 } else {
@@ -263,7 +262,6 @@ public class NewsShowActivity extends AppCompatActivity {
                     String whichItem = result[1];
                     String keyWord = keyWords.getJSONObject(Integer.parseInt(result[1])).getString("word");
                     JSONArray allData = object.getJSONArray("data");
-                    Log.d("alldata", allData.toString());
                     double maxScore = 0.0;
                     int index = 0;
                     for (int i = 0; i < allData.length(); ++i){

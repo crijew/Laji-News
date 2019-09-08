@@ -4,19 +4,15 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
 
 class CollectedItem {
-    String newsID;
+    private String newsID;
     String info;
     String title;
     String subtitle;
@@ -31,7 +27,7 @@ class CollectedItem {
         return (((CollectedItem) obj).newsID.equals(this.newsID));
     }
 
-    CollectedItem(String newsID, String info, String title, String subtitle, String time, String content, String imageURL){
+    CollectedItem(String newsID, String info, String title, String subtitle, String time, String content, String imageURL) {
         this.newsID = newsID;
         this.info = info;
         this.title = title;
@@ -53,6 +49,7 @@ class Common {
     static ArrayList<CollectedItem> collected = new ArrayList<>();
     static boolean changed = false;
     static CollectedItem nowNews;
+    static ArrayList<String> clicked = new ArrayList<>();
 
     static String encodingToUrl(String size, String startDate, String endDate, String words, String categories, String page) {
         String[] args = new String[]{size, startDate, endDate, words, categories, page};
@@ -73,10 +70,14 @@ class Common {
         Gson gson = new Gson();
         SharedPreferences sp = context.getSharedPreferences("data", Context.MODE_PRIVATE);
         nightMode = sp.getBoolean("nightMode", false);
-        history = gson.fromJson(sp.getString("history", "[]"), new TypeToken<ArrayList<String>>(){}.getType());
-        added = gson.fromJson(sp.getString("added", "[0, 1, 2, 3, 4, 5, 6, 7, 8, 9]"), new TypeToken<ArrayList<Integer>>(){}.getType());
-        deleted = gson.fromJson(sp.getString("deleted", "[]"), new TypeToken<ArrayList<Integer>>(){}.getType());
-        collected = gson.fromJson(sp.getString("collected", "[]"), new TypeToken<ArrayList<CollectedItem>>(){}.getType());
+        history = gson.fromJson(sp.getString("history", "[]"), new TypeToken<ArrayList<String>>() {
+        }.getType());
+        added = gson.fromJson(sp.getString("added", "[0, 1, 2, 3, 4, 5, 6, 7, 8, 9]"), new TypeToken<ArrayList<Integer>>() {
+        }.getType());
+        deleted = gson.fromJson(sp.getString("deleted", "[]"), new TypeToken<ArrayList<Integer>>() {
+        }.getType());
+        collected = gson.fromJson(sp.getString("collected", "[]"), new TypeToken<ArrayList<CollectedItem>>() {
+        }.getType());
     }
 
     static void saveData(Context context) {

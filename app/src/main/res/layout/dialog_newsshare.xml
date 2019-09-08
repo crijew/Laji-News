@@ -1,49 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/newsShowDialog"
-    android:layout_margin="10dp"
-    android:layout_gravity="center"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
     android:layout_width="wrap_content"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:layout_margin="10dp"
+    android:orientation="vertical">
 
     <GridView
         android:id="@+id/newsShareGrid"
-        android:background="@drawable/alldialog"
-        android:numColumns="auto_fit"
-        android:gravity="center"
-        android:columnWidth="80dp"
-        android:paddingTop="20dp"
-        android:paddingBottom="20dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-    </GridView>
+        android:layout_height="wrap_content"
+        android:background="@drawable/alldialog"
+        android:columnWidth="80dp"
+        android:gravity="center"
+        android:numColumns="auto_fit"
+        android:paddingTop="20dp"
+        android:paddingBottom="20dp" />
 
     <View
-        android:alpha="0x80"
         android:layout_width="match_parent"
-        android:layout_height="10dp">
+        android:layout_height="10dp"
+        android:alpha="0x80">
 
     </View>
 
 
-
     <Button
-        android:focusable="true"
-        android:clickable="true"
         android:id="@+id/newsShareExit"
-        android:textSize="@dimen/textSize"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/alldialog"
+        android:clickable="true"
+        android:focusable="true"
         android:gravity="center"
         android:text="@string/giveUp"
-        android:background="@drawable/alldialog"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:textSize="@dimen/textSize" />
 
     <View
-        android:alpha="0x80"
         android:layout_width="match_parent"
-        android:layout_height="15dp">
+        android:layout_height="15dp"
+        android:alpha="0x80">
 
     </View>
 

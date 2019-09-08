@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/commonBG"
     android:orientation="vertical">
     <!--Status bar-->
@@ -12,25 +12,28 @@
         android:layout_height="wrap_content"
         android:background="@color/header"
         android:orientation="horizontal" />
+
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
         <android.support.v4.view.ViewPager
             android:id="@+id/mainViewPager"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
+
         <android.support.design.widget.TabLayout
             android:id="@+id/mainTab"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
             android:background="@color/commonBG"
-            app:tabMode="fixed"
-            app:tabBackground="@android:color/transparent"
-            app:tabRippleColor="@android:color/transparent"
-            app:tabIndicatorHeight="0dp"
+            android:elevation="80dp"
             android:paddingTop="3dp"
             android:paddingBottom="2dp"
-            android:elevation="80dp"/>
+            app:tabBackground="@android:color/transparent"
+            app:tabIndicatorHeight="0dp"
+            app:tabMode="fixed"
+            app:tabRippleColor="@android:color/transparent" />
     </FrameLayout>
 </LinearLayout>

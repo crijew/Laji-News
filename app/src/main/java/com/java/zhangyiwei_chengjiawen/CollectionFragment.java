@@ -6,21 +6,19 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.BaseAdapter;
 import android.widget.ImageView;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.BaseAdapter;
 
-class CollectionNewsListAdapter extends BaseAdapter{
+class CollectionNewsListAdapter extends BaseAdapter {
     private Context context;
 
-    class CollectionViewHolder{
+    class CollectionViewHolder {
         private TextView itemTitle;
         private ImageView itemImage;
         private TextView itemSubtitle;
@@ -28,7 +26,7 @@ class CollectionNewsListAdapter extends BaseAdapter{
         String info;
     }
 
-    CollectionNewsListAdapter(Context context){
+    CollectionNewsListAdapter(Context context) {
         this.context = context;
     }
 
@@ -36,8 +34,7 @@ class CollectionNewsListAdapter extends BaseAdapter{
     public int getCount() {
         return Common.collected.size();
     }
-//TODO
-// 不知道会不会调用，如果出现问题注意修改这里
+
     @Override
     public Object getItem(int i) {
         return Common.collected.get(i);
@@ -52,7 +49,7 @@ class CollectionNewsListAdapter extends BaseAdapter{
     public View getView(int position, View convertView, ViewGroup parent) {
         CollectionViewHolder viewHolder;
         CollectedItem collectedItem = Common.collected.get(position);
-        if (convertView == null){
+        if (convertView == null) {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = inflater.inflate(R.layout.news_item, parent, false);
             viewHolder = new CollectionViewHolder();

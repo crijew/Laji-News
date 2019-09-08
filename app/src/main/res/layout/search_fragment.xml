@@ -3,9 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/commonBG"
     android:orientation="vertical"
     android:visibility="invisible"
-    android:background="@color/commonBG"
     tools:context="com.java.zhangyiwei_chengjiawen.SearchFragment">
 
     <RelativeLayout

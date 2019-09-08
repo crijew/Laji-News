@@ -38,7 +38,7 @@
                     android:layout_height="match_parent"
                     android:paddingTop="10dp"
                     android:paddingBottom="10dp"
-                    android:src="@mipmap/search_icon"/>
+                    android:src="@mipmap/search_icon" />
 
                 <EditText
                     android:id="@+id/searchText"

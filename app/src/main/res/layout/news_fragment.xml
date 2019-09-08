@@ -33,27 +33,30 @@
         android:layout_gravity="center"
         android:orientation="horizontal"
         android:visibility="gone">
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="@string/networkError"
             android:textColor="@color/mainText"
-            android:textSize="@dimen/textSize"
-            android:text="@string/networkError"/>
+            android:textSize="@dimen/textSize" />
+
         <TextView
             android:id="@+id/refresh"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@android:color/holo_blue_dark"
             android:text="@string/refresh"
-            android:textSize="@dimen/textSize"/>
+            android:textColor="@android:color/holo_blue_dark"
+            android:textSize="@dimen/textSize" />
     </LinearLayout>
+
     <TextView
         android:id="@+id/resultError"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
+        android:text="@string/resultError"
         android:textColor="@color/mainText"
         android:textSize="@dimen/textSize"
-        android:text="@string/resultError"
-        android:visibility="gone"/>
+        android:visibility="gone" />
 </FrameLayout>
